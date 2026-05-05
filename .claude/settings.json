@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+
+  "extraKnownMarketplaces": {
+    "claude-code-showcase": {
+      "source": {
+        "source": "github",
+        "repo": "mhosavic/claude-code-showcase"
+      }
+    }
+  },
+
+  "enabledPlugins": {
+    "draft-email@claude-code-showcase": true,
+    "linkedin-post@claude-code-showcase": true,
+    "commit-helper@claude-code-showcase": true
+  },
+
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run test:*)",
+      "Bash(npm run dev:*)",
+      "Bash(node:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "WebFetch(domain:code.claude.com)",
+      "WebFetch(domain:docs.claude.com)",
+      "WebFetch(domain:learn.microsoft.com)",
+      "WebFetch(domain:platform.openai.com)",
+      "WebFetch(domain:developers.openai.com)",
+      "WebSearch"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Edit(./.env)",
+      "Edit(./.env.*)",
+      "Write(./.env)",
+      "Write(./.env.*)",
+      "Bash(git push --force:*)"
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+# Node / TypeScript
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Secrets — never commit
+.env
+.env.*
+*.pem
+*.key
+
+# Claude Code local state
+.claude/settings.local.json
+.claude/projects/
+.claude/worktrees/
+.claude/.mcp-state/
+CLAUDE.local.md
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log

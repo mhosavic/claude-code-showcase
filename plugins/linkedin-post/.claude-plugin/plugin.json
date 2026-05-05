@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "linkedin-post",
+  "version": "0.1.0",
+  "description": "Orchestrated LinkedIn post workflow: interview the user, draft text, generate an image, push the draft. Bundles a stdio MCP server with two credential-scoped tools and demonstrates per-skill allowed-tools.",
+  "author": {
+    "name": "mhosavic"
+  },
+  "license": "MIT",
+  "keywords": ["linkedin", "social", "orchestration", "mcp", "skill"],
+
+  "userConfig": {
+    "MOCK_MODE": {
+      "type": "boolean",
+      "title": "Mock mode",
+      "description": "When true, MCP tools log what they would do instead of calling real APIs. Leave on while exploring; turn off after providing real credentials.",
+      "default": true
+    },
+    "OPENAI_API_KEY": {
+      "type": "string",
+      "title": "OpenAI API key",
+      "description": "Used by the generate_image tool when MOCK_MODE is off. Get one at https://platform.openai.com/api-keys.",
+      "sensitive": true
+    },
+    "LINKEDIN_ACCESS_TOKEN": {
+      "type": "string",
+      "title": "LinkedIn access token",
+      "description": "3-legged OAuth access token with the w_member_social scope. See docs/04-mcp-server-with-auth.md for how to obtain one.",
+      "sensitive": true
+    },
+    "LINKEDIN_PERSON_URN": {
+      "type": "string",
+      "title": "LinkedIn person URN",
+      "description": "Your LinkedIn person URN, e.g. urn:li:person:abc123. Required by the post_linkedin_draft tool when MOCK_MODE is off."
+    }
+  },
+
+  "mcpServers": {
+    "linkedin-post": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/mcp-server/dist/server.js"],
+      "env": {
+        "MOCK_MODE": "${user_config.MOCK_MODE}",
+        "OPENAI_API_KEY": "${user_config.OPENAI_API_KEY}",
+        "LINKEDIN_ACCESS_TOKEN": "${user_config.LINKEDIN_ACCESS_TOKEN}",
+        "LINKEDIN_PERSON_URN": "${user_config.LINKEDIN_PERSON_URN}",
+        "NODE_PATH": "${CLAUDE_PLUGIN_DATA}/node_modules"
+      }
+    }
+  },
+
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "diff -q \"${CLAUDE_PLUGIN_ROOT}/mcp-server/package.json\" \"${CLAUDE_PLUGIN_DATA}/package.json\" >/dev/null 2>&1 || (mkdir -p \"${CLAUDE_PLUGIN_DATA}\" && cp \"${CLAUDE_PLUGIN_ROOT}/mcp-server/package.json\" \"${CLAUDE_PLUGIN_DATA}/package.json\" && cd \"${CLAUDE_PLUGIN_DATA}\" && npm install --omit=dev --silent && (cd \"${CLAUDE_PLUGIN_ROOT}/mcp-server\" && npm run build --silent)) || rm -f \"${CLAUDE_PLUGIN_DATA}/package.json\""
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "linkedin-post-mcp-server",
+  "version": "0.1.0",
+  "description": "Stdio MCP server bundled with the linkedin-post Claude Code plugin. Two tools: post_linkedin_draft, generate_image.",
+  "type": "module",
+  "private": true,
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/server.js",
+    "test:mock": "MOCK_MODE=true node dist/server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

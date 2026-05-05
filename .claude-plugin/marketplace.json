@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-marketplace.json",
+  "name": "claude-code-showcase",
+  "description": "Reference plugins demonstrating skill, subagent, and MCP-server patterns for Claude Code teams.",
+  "owner": {
+    "name": "mhosavic",
+    "url": "https://github.com/mhosavic"
+  },
+  "metadata": {
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "draft-email",
+      "source": "draft-email",
+      "description": "Single-skill plugin: /draft-email:draft writes a polite, well-structured email from a one-line description.",
+      "category": "productivity",
+      "tags": ["skill", "writing", "starter"],
+      "version": "0.1.0",
+      "author": {
+        "name": "mhosavic"
+      }
+    },
+    {
+      "name": "linkedin-post",
+      "source": "linkedin-post",
+      "description": "Multi-skill orchestration plugin: interview the user, draft post text, generate an image, push the draft to LinkedIn. Includes a bundled stdio MCP server with credential-scoped tools and per-skill allowed-tools.",
+      "category": "productivity",
+      "tags": ["skill", "subagent", "mcp", "orchestration"],
+      "version": "0.1.0",
+      "author": {
+        "name": "mhosavic"
+      }
+    },
+    {
+      "name": "commit-helper",
+      "source": "commit-helper",
+      "description": "Mid-tier plugin demonstrating dynamic context injection (live shell output in skills), path-scoped skill activation, and a PreToolUse hook that blocks dangerous git commands.",
+      "category": "development",
+      "tags": ["git", "skill", "hook", "context-injection"],
+      "version": "0.1.0",
+      "author": {
+        "name": "mhosavic"
+      }
+    }
+  ]
+}
