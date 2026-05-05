@@ -37,6 +37,17 @@ MOCK_MODE=true node dist/server.js
 You should see `linkedin-post MCP server up (mock=true)` on stderr. Stdin/stdout
 speak the MCP protocol.
 
+## Tests
+
+```bash
+npm test            # vitest run — unit tests for tools and auth
+npm run test:watch  # iterative TDD mode
+```
+
+Tests live in `src/__tests__/` and cover mock-mode short-circuiting,
+schema validation, and missing-credential error paths. The default
+`tsc` build excludes them so they never end up in `dist/`.
+
 ## Going from mock to real
 
 The auth model is intentionally simple:

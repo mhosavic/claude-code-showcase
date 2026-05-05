@@ -7,5 +7,11 @@
     "name": "mhosavic"
   },
   "license": "MIT",
+  "homepage": "https://github.com/mhosavic/claude-code-showcase/tree/main/plugins/draft-email",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mhosavic/claude-code-showcase.git",
+    "directory": "plugins/draft-email"
+  },
   "keywords": ["email", "writing", "skill", "starter"]
 }

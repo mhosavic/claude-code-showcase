@@ -59,7 +59,8 @@ Skills vs the alternatives:
 
 - **vs CLAUDE.md** — CLAUDE.md is "always loaded" project-wide context.
   Skills are "load when invoked." Use CLAUDE.md for facts about the
-  project. Use skills for repeatable workflows.
+  project. Use skills for repeatable workflows. (Full concept:
+  `/showcase-tour:explain claude-md-and-rules`.)
 - **vs subagents** — Subagents run in a *separate* context window. Use
   subagents when you want the work isolated. Use skills when you want it
   inline in the user's main conversation.

@@ -70,6 +70,7 @@ Compare with related mechanisms:
   *not* invocable. They're inert context that loads when Claude reads
   matching files. Use rules for "this is how we do X in src/api/" facts.
   Use path-scoped skills for *actions* the user might take on those files.
+  Full concept: `/showcase-tour:explain claude-md-and-rules`.
 - **vs `disable-model-invocation`** — `paths:` controls *automatic
   discovery*. `disable-model-invocation` controls whether Claude can
   *invoke* the skill at all. They compose: a skill can be path-scoped AND

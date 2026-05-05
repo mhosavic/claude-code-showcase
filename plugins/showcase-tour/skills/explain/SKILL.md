@@ -1,6 +1,6 @@
 ---
 name: explain
-description: Concept curriculum for the claude-code-showcase. Pass a concept name (skills, plugins, mcp, hooks, subagents, scopes, dynamic-injection, path-scoping, skill-controls, marketplaces, mcp-tools, mcp-prompts-resources) and get a focused ~5-minute lesson grounded in this repo's actual code. With no args, lists all 12 concepts with one-line definitions — usable as a glossary. Use as a follow-up to /showcase-tour:tour to dig into one concept thoroughly.
+description: Concept curriculum for the claude-code-showcase. Pass a concept name (skills, plugins, mcp, hooks, subagents, scopes, dynamic-injection, path-scoping, skill-controls, marketplaces, mcp-tools, mcp-prompts-resources, claude-md-and-rules) and get a focused ~5-minute lesson grounded in this repo's actual code. With no args, lists all 13 concepts with one-line definitions — usable as a glossary. Use as a follow-up to /showcase-tour:tour to dig into one concept thoroughly.
 disable-model-invocation: true
 argument-hint: [concept-name | empty for catalog]
 allowed-tools: Read, Glob
@@ -27,6 +27,7 @@ The user invoked `/showcase-tour:explain $ARGUMENTS`. They want either a
 | 10 | **mcp** | Model Context Protocol — the open standard for AI-tool integration. Servers expose three primitives: tools, prompts, resources. | `references/mcp.md` |
 | 11 | **mcp-tools** | Functions Claude can invoke (`mcp__server__name`). Verbs that *do* things: post, fetch, query, deploy. The most common MCP primitive. | `references/mcp-tools.md` |
 | 12 | **mcp-prompts-resources** | Two MCP primitives that aren't tools. Prompts → parameterized slash commands. Resources → `@`-mentionable content like style guides or schemas. | `references/mcp-prompts-resources.md` |
+| 13 | **claude-md-and-rules** | The "house style" layer — `CLAUDE.md` as durable repo policy plus `.claude/rules/` as topic-specific deep-dives. Advisory, not deterministic — contrast with hooks. | `references/claude-md-and-rules.md` |
 
 ## How to handle the request
 
@@ -77,6 +78,7 @@ builds on itself:
 4. **scopes** → 5. **dynamic-injection** → 6. **path-scoping** → 7. **skill-controls** (skill ergonomics)
 8. **subagents** → 9. **hooks** (advanced control)
 10. **mcp** → 11. **mcp-tools** → 12. **mcp-prompts-resources** (external integration)
+13. **claude-md-and-rules** (project policy layer — read this last to tie together how skills, hooks, and CLAUDE.md compose)
 
 You don't have to drill them through this order. But if they're picking
 randomly and you sense they're confused, suggest starting at **skills**

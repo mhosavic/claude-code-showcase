@@ -9,7 +9,7 @@ it demonstrates skill-building by being a skill itself.
 | Skill | What it does | Time |
 |---|---|---|
 | `/showcase-tour:tour [quick\|standard\|deep\|<topic>]` | Interactive guided tour of every feature in the showcase. Adapts to mode and to what's installed. | 5 / 15 / 30 min |
-| `/showcase-tour:explain [concept]` | Concept curriculum. With no args, lists 12 concepts with one-line definitions (glossary mode). With a concept name, loads that concept's full lesson (~5 min). | 30s glossary / 5 min lesson |
+| `/showcase-tour:explain [concept]` | Concept curriculum. With no args, lists 13 concepts with one-line definitions (glossary mode). With a concept name, loads that concept's full lesson (~5 min). | 30s glossary / 5 min lesson |
 | `/showcase-tour:inspect <target>` | Code walkthrough — reads any file/plugin/skill in the showcase and explains it line-by-line with annotations. | 5-10 min |
 | `/showcase-tour:status` | 30-second health check: which plugins are installed, MCP server build state, prerequisite tooling. | 30s |
 
@@ -30,7 +30,7 @@ relevant moments.
 
 ## Concept catalog (for `/showcase-tour:explain`)
 
-Twelve concepts, ordered as a curriculum:
+Thirteen concepts, ordered as a curriculum:
 
 1. `skills` — the prompt-as-slash-command primitive
 2. `plugins` — bundling unit (covers `userConfig`)
@@ -44,6 +44,7 @@ Twelve concepts, ordered as a curriculum:
 10. `mcp` — protocol overview, the 3 primitives
 11. `mcp-tools` — verbs Claude invokes
 12. `mcp-prompts-resources` — slash commands + `@`-mentions from servers
+13. `claude-md-and-rules` — repo-scoped policy layer (advisory, contrast with hooks)
 
 Each concept lives at
 `plugins/showcase-tour/skills/explain/references/<concept>.md` and
@@ -63,6 +64,9 @@ Anything in the repo. Common targets recognized as keywords:
 | `the hook` | `plugins/commit-helper/scripts/guard-dangerous-git.sh` |
 | `the subagent` | `plugins/linkedin-post/agents/post-coordinator.md` |
 | `the tour` | `plugins/showcase-tour/skills/tour/SKILL.md` |
+| `CLAUDE.md` / `the house style` | `CLAUDE.md` |
+| `the rules` | `.claude/rules/` (skill-writing.md, mcp-server.md, concept-references.md) |
+| `the tests` | `plugins/linkedin-post/mcp-server/src/__tests__/` |
 
 You can also pass any literal path, plugin name (`draft-email`,
 `linkedin-post`, `commit-helper`, `showcase-tour`), or skill name
@@ -115,7 +119,8 @@ showcase-tour/
     │       ├── hooks.md
     │       ├── mcp.md
     │       ├── mcp-tools.md
-    │       └── mcp-prompts-resources.md
+    │       ├── mcp-prompts-resources.md
+    │       └── claude-md-and-rules.md
     ├── inspect/SKILL.md                 ← the code walkthrough
     └── status/SKILL.md                  ← the health check
 ```

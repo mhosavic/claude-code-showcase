@@ -249,9 +249,13 @@ If something's broken: [`09-troubleshooting.md`](09-troubleshooting.md).
 - **Add a tool to the MCP server** — copy a file in
   `plugins/linkedin-post/mcp-server/src/tools/`, change the schema and
   handler, register it in `server.ts`. `npm run build && /reload-plugins`.
+  Add a vitest test alongside (`src/__tests__/`) and run `npm test`.
 - **Add a prompt or resource to the MCP server** — see
   `src/prompts/composer.ts` and `src/resources/style-guide.ts` as
   templates.
+- **Set repo-wide policy** — read this repo's [`CLAUDE.md`](../CLAUDE.md)
+  and [`.claude/rules/`](../.claude/rules/) for an example of project-
+  scoped instructions. Concept lesson: `/showcase-tour:explain claude-md-and-rules`.
 - **Convert a personal `~/.claude/skills/` skill into a shared plugin** —
   see [Promoting a personal skill](03-team-distribution.md#promoting-a-personal-skill-to-a-plugin).
 

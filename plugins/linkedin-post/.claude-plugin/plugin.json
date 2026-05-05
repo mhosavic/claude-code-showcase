@@ -7,6 +7,12 @@
     "name": "mhosavic"
   },
   "license": "MIT",
+  "homepage": "https://github.com/mhosavic/claude-code-showcase/tree/main/plugins/linkedin-post",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mhosavic/claude-code-showcase.git",
+    "directory": "plugins/linkedin-post"
+  },
   "keywords": ["linkedin", "social", "orchestration", "mcp", "skill"],
 
   "userConfig": {

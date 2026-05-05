@@ -54,6 +54,9 @@ Map common phrases to a target:
 | `the tour`, `the tour skill` | `plugins/showcase-tour/skills/tour/SKILL.md` |
 | `userConfig` | `plugins/linkedin-post/.claude-plugin/plugin.json` |
 | `the README` | `README.md` |
+| `CLAUDE.md`, `the house style`, `house rules` | `CLAUDE.md` |
+| `the rules`, `rules folder` | List `.claude/rules/`, then read whichever the user names (or all three if they don't pick). |
+| `the tests`, `the MCP tests` | List `plugins/linkedin-post/mcp-server/src/__tests__/`, walk through `images.test.ts` first. |
 
 ### E. Empty or unclear
 

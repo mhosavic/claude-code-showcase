@@ -1,5 +1,7 @@
 # claude-code-showcase
 
+[![test](https://github.com/mhosavic/claude-code-showcase/actions/workflows/test.yml/badge.svg)](https://github.com/mhosavic/claude-code-showcase/actions/workflows/test.yml)
+
 Reference plugins for Claude Code. Built to answer six concrete questions
 about how to set up, distribute, and extend Claude Code on a real team —
 plus a Cowork-compatibility note.
@@ -13,6 +15,7 @@ plus a Cowork-compatibility note.
 | 5 | What does an **MCP function** look like in code (tools + prompts + resources)? | [`docs/05-mcp-function-example.md`](docs/05-mcp-function-example.md) |
 | 6 | How do you **add an MCP in Claude Team as a connector** so individual workstations don't have to set it up? | [`docs/06-claude-team-connectors.md`](docs/06-claude-team-connectors.md) |
 | 7 | Bonus — Compatibility with **Claude Cowork** (the desktop app). | [`docs/07-using-with-cowork.md`](docs/07-using-with-cowork.md) |
+| 8 | Bonus — How do you set **repo-wide instructions** with `CLAUDE.md` and `.claude/rules/`? | [`CLAUDE.md`](CLAUDE.md) + [`.claude/rules/`](.claude/rules/) + `/showcase-tour:explain claude-md-and-rules` |
 
 A third plugin, `plugins/commit-helper/`, also ships in the marketplace.
 It's a "middle tier" between simple and complex, demonstrating three
@@ -24,10 +27,11 @@ self-contained learning curriculum:
 
 - **`/showcase-tour:tour`** — interactive walkthrough of every feature.
 - **`/showcase-tour:explain <concept>`** — focused 5-minute concept
-  lesson. 12 concepts cover skills, plugins, marketplaces, scopes,
+  lesson. 13 concepts cover skills, plugins, marketplaces, scopes,
   dynamic-injection, path-scoping, skill-controls, subagents, hooks,
-  and the MCP trio (mcp / mcp-tools / mcp-prompts-resources). With no
-  args, lists all 12 with one-line definitions (glossary mode).
+  the MCP trio (mcp / mcp-tools / mcp-prompts-resources), and
+  claude-md-and-rules. With no args, lists all 13 with one-line
+  definitions (glossary mode).
 - **`/showcase-tour:inspect <target>`** — reads any file/plugin/skill in
   the showcase and walks through it line-by-line with annotations.
 - **`/showcase-tour:status`** — 30-second installation health check.
@@ -49,11 +53,16 @@ pattern it teaches — it's a worked example of skill-building.
 ```
 claude-code-showcase/
 ├── README.md                              ← you are here
+├── CLAUDE.md                              ← repo-scoped policy (loaded every turn)
 ├── .claude-plugin/
-│   └── marketplace.json                   ← lists all three plugins
+│   └── marketplace.json                   ← lists all four plugins
 ├── .claude/
-│   └── settings.json                      ← bootstraps the marketplace
-│                                            for anyone who clones the repo
+│   ├── settings.json                      ← bootstraps the marketplace
+│   │                                        for anyone who clones the repo
+│   └── rules/                             ← topic-specific guidance referenced from CLAUDE.md
+│       ├── skill-writing.md
+│       ├── mcp-server.md
+│       └── concept-references.md
 ├── plugins/
 │   ├── draft-email/                       ← Q1 — simplest possible plugin
 │   │   ├── .claude-plugin/plugin.json
@@ -70,7 +79,7 @@ claude-code-showcase/
 │   │   ├── .claude-plugin/plugin.json
 │   │   └── skills/
 │   │       ├── tour/SKILL.md              ← interactive walkthrough
-│   │       ├── explain/                   ← concept curriculum (12 lessons)
+│   │       ├── explain/                   ← concept curriculum (13 lessons)
 │   │       │   ├── SKILL.md
 │   │       │   └── references/*.md       ← lazy-loaded concept files
 │   │       ├── inspect/SKILL.md           ← code walkthroughs
@@ -89,7 +98,8 @@ claude-code-showcase/
 │               ├── auth.ts                ← env-var loading, mock-mode
 │               ├── tools/                 ← generate_image, post_linkedin_draft
 │               ├── prompts/composer.ts    ← MCP prompt → slash command
-│               └── resources/style-guide.ts ← MCP resource → @-mention
+│               ├── resources/style-guide.ts ← MCP resource → @-mention
+│               └── __tests__/             ← vitest unit tests (mock + schema + auth)
 └── docs/
     ├── prerequisites.md                   ← what to install first
     ├── 00-start-here.md                   ← guided tour
@@ -125,7 +135,7 @@ Three entry points — pick the one that fits how you learn:
 /showcase-tour:inspect plugins/draft-email   # walk through actual code
 ```
 
-Or get the catalog of all 12 concept lessons:
+Or get the catalog of all 13 concept lessons:
 
 ```
 /showcase-tour:explain           # lists every concept with a 1-line def

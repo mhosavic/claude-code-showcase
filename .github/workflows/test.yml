@@ -1,0 +1,74 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  mcp-server:
+    name: MCP server (build + tests)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: plugins/linkedin-post/mcp-server
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: plugins/linkedin-post/mcp-server/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (tsc)
+        run: npm run build
+
+      - name: Run tests (vitest)
+        run: npm test
+
+  hook-smoke-test:
+    name: commit-helper hook (block + pass)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Hook blocks force-push to main
+        run: |
+          set +e
+          OUTPUT=$(echo '{"tool_name":"Bash","tool_input":{"command":"git push --force origin main"}}' \
+            | bash plugins/commit-helper/scripts/guard-dangerous-git.sh 2>&1)
+          STATUS=$?
+          set -e
+          echo "$OUTPUT"
+          if [ "$STATUS" != "2" ]; then
+            echo "::error::Expected exit 2 (block), got $STATUS"
+            exit 1
+          fi
+
+      - name: Hook allows benign git status
+        run: |
+          echo '{"tool_name":"Bash","tool_input":{"command":"git status"}}' \
+            | bash plugins/commit-helper/scripts/guard-dangerous-git.sh
+
+  json-validation:
+    name: Validate plugin manifests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: jq parse all plugin/marketplace/settings JSON
+        run: |
+          for f in \
+            .claude-plugin/marketplace.json \
+            .claude/settings.json \
+            plugins/*/.claude-plugin/plugin.json \
+            plugins/commit-helper/hooks/hooks.json
+          do
+            echo "Checking $f"
+            jq empty "$f"
+          done

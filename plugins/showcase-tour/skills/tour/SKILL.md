@@ -273,12 +273,15 @@ Reference: `docs/07-using-with-cowork.md`.
 End with **three or four lines**:
 
 > "That's the showcase. A few ways to keep learning:
->  - **Concept by concept** → `/showcase-tour:explain` lists 12 lessons;
->    pick any (start with `skills` if you're brand-new).
+>  - **Concept by concept** → `/showcase-tour:explain` lists 13 lessons;
+>    pick any (start with `skills` if you're brand-new). The last one
+>    (`claude-md-and-rules`) ties everything together — repo-scoped
+>    policy plus topic rules.
 >  - **Read the actual code** → `/showcase-tour:inspect <file>` walks
 >    through any file in the repo with annotations. Try
 >    `/showcase-tour:inspect plugins/linkedin-post` for the most-complex
->    plugin.
+>    plugin, or `/showcase-tour:inspect CLAUDE.md` to see how this repo
+>    teaches its own house style.
 >  - **Verify it all works** → `/showcase-tour:status` for the health
 >    check, `docs/08-verify.md` for the full checklist.
 >  - **Make it real** → the LinkedIn integration is mocked by default;

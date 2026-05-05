@@ -164,5 +164,8 @@ truth* somewhere other than the repo.
    forbidden phrases.
 3. Run `/showcase-tour:inspect plugins/linkedin-post/mcp-server/src/server.ts`
    to see all three registrations side by side.
-4. You've now seen all 12 concepts. Run `/showcase-tour:tour deep` if
+4. Then `/showcase-tour:explain claude-md-and-rules` for the final
+   concept — how repo-scoped policy ties skills, hooks, and MCP
+   together.
+5. Once you've seen all 13 concepts, run `/showcase-tour:tour deep` if
    you want to put them together end-to-end.
