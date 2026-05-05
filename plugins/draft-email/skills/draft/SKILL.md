@@ -8,6 +8,11 @@ argument-hint: <one-line description of what the email should say>
 
 Write an email based on this brief: **$ARGUMENTS**
 
+**Language.** Write the email in the language of the brief above. If
+the brief is in French, the email body, subject, greeting, and
+sign-off are all in French. Same for English. If the brief mixes
+languages, default to whichever has more content.
+
 ## How to write it
 
 1. **Pick a tone** that matches the brief.

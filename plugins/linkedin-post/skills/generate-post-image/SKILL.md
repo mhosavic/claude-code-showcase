@@ -7,6 +7,12 @@ allowed-tools: mcp__linkedin-post__generate_image
 
 # Generate post image
 
+**Language.** The image-generation prompt sent to the model stays in
+English — gpt-image-1 follows English visual descriptions most
+reliably. But your messages to the user (asking for refinements,
+showing the result, iterating on feedback) are in the language they're
+using (English / Français).
+
 Generate a square (1024×1024) image for a LinkedIn post matching this brief:
 **$ARGUMENTS**
 

@@ -7,6 +7,10 @@ allowed-tools: Bash(git log *), Bash(git diff *), Bash(git rev-parse *)
 
 # Yesterday's summary
 
+**Language.** Write the stand-up summary in the language the user is
+using in the conversation (English / Français). Commit messages quoted
+from `git log` stay verbatim.
+
 Live data, fetched before this prompt reaches Claude:
 
 - **Branch:** !`git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "?"`

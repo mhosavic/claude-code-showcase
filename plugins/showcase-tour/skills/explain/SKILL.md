@@ -11,6 +11,18 @@ allowed-tools: Read, Glob
 The user invoked `/showcase-tour:explain $ARGUMENTS`. They want either a
 **glossary** (no args) or a **focused lesson** on one concept.
 
+## Language
+
+This skill is bilingual (English / Français). Detect the user's
+language from the conversation — if their preceding messages are in
+French, respond in French; otherwise English. If the language is
+unclear, briefly ask once (one bilingual line) before continuing.
+
+The reference files under `references/` are written in English.
+Translate them on the fly into French if needed; preserve concept names
+verbatim where the glossary in `tour/SKILL.md` says to (e.g., `skill`,
+`plugin`, `marketplace`, `hook` — all kept verbatim in French).
+
 ## Concept catalog
 
 | # | Concept | One-line definition | Reference file |

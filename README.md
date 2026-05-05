@@ -6,6 +6,15 @@ Reference plugins for Claude Code. Built to answer six concrete questions
 about how to set up, distribute, and extend Claude Code on a real team —
 plus a Cowork-compatibility note.
 
+**Bilingual.** All four plugins support English and Français. The
+showcase tour asks your preferred language at the start; every other
+skill detects the language from the conversation and matches it.
+Run `/showcase-tour:tour fr` to start directly in French. /
+**Bilingue.** Les quatre plugins fonctionnent en anglais et en
+français. La visite guidée demande la langue au début ; les autres
+skills détectent la langue de la conversation et s'y adaptent. Lance
+`/showcase-tour:tour fr` pour commencer directement en français.
+
 | # | Question | Where to look |
 |---|---|---|
 | 1 | What does the file structure of a **simple skill** look like? | `plugins/draft-email/` + [`docs/01-simple-skill.md`](docs/01-simple-skill.md) |

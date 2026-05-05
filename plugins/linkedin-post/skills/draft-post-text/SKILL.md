@@ -6,6 +6,10 @@ argument-hint: <structured brief from /linkedin-post:interview>
 
 # Draft LinkedIn post text
 
+**Language.** Write the post in the language of the brief (English /
+Français). Your meta-comments and explanations to the user are in the
+language they're using in the conversation.
+
 Write a single LinkedIn post from this brief: **$ARGUMENTS**
 
 ## What good looks like

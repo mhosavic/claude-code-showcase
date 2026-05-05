@@ -9,8 +9,15 @@ allowed-tools: Bash(test *), Bash(ls *), Bash(node *), Bash(jq *), Bash(which *)
 
 The user wants a 30-second installation health check. Gather the state
 yourself with the read-only Bash commands listed below, then produce
-the status table. All commands here are pre-approved via `allowed-tools`,
-so they run without prompting.
+the status table. All commands here are pre-approved via
+`allowed-tools`, so they run without prompting.
+
+## Language
+
+This skill is bilingual. Detect the user's language from the
+conversation. The status table below has both English and French
+versions — pick the one matching the user's language. Don't show
+both; pick one.
 
 ## Step 1 — Probe state
 
@@ -48,7 +55,9 @@ Empty/error means missing.
 
 ## Step 2 — Produce the status table
 
-Output exactly this format:
+Pick the format matching the user's language.
+
+**English:**
 
 ```
 showcase-tour status
@@ -65,9 +74,28 @@ Prerequisites      <✓ all present | ✗ missing: node/jq>
 → <one-line summary>
 ```
 
+**Français :**
+
+```
+état showcase-tour
+
+Dépôt              <✓|✗> dans le dépôt showcase
+Plugins installés  <count>/4
+  draft-email      <✓|✗>
+  commit-helper    <✓|✗>
+  linkedin-post    <✓|✗>
+  showcase-tour    <✓|✗>
+Serveur MCP        <✓ prêt | en construction | ✗ pas construit>
+Prérequis          <✓ tous présents | ✗ manquant : node/jq>
+
+→ <résumé en une ligne>
+```
+
 Use ✓ for present and ✗ for missing.
 
 ## Step 3 — Summary line — pick the right one
+
+**English versions:**
 
 - All ✓ → `Everything wired up. Try /showcase-tour:tour to walk through what's here.`
 - Some plugins missing → `<n> plugin(s) not installed. Run /plugin install <name>@claude-code-showcase for each.`
@@ -75,9 +103,17 @@ Use ✓ for present and ✗ for missing.
 - linkedin-post installed but MCP server not built → `MCP server hasn't built yet. Run /reload-plugins.`
 - Not in showcase repo AND nothing installed → `You're not in the showcase repo and no plugins are installed. Either /plugin marketplace add mhosavic/claude-code-showcase, or git clone the repo and open it.`
 
-If multiple things are wrong, pick the **earliest** in the chain (prereqs
-before plugins before MCP build) so the user fixes things in dependency
-order.
+**Versions françaises :**
+
+- Tout ✓ → `Tout est branché. Lance /showcase-tour:tour pour faire la visite.`
+- Certains plugins manquent → `<n> plugin(s) non installé(s). Exécute /plugin install <name>@claude-code-showcase pour chacun.`
+- node manquant → `Installe Node.js 20+ avant d'utiliser linkedin-post — voir docs/prerequisites.md.`
+- linkedin-post installé mais serveur MCP non construit → `Le serveur MCP n'est pas encore construit. Exécute /reload-plugins.`
+- Pas dans le dépôt ET rien d'installé → `Tu n'es pas dans le dépôt showcase et aucun plugin n'est installé. Soit /plugin marketplace add mhosavic/claude-code-showcase, soit git clone le dépôt et ouvre-le.`
+
+If multiple things are wrong, pick the **earliest** in the chain
+(prereqs before plugins before MCP build) so the user fixes things in
+dependency order.
 
 ## What you do NOT do
 

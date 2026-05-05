@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "commit-helper",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "description": "Mid-tier plugin that demonstrates three Claude Code features the simple/complex plugins don't: dynamic context injection (live shell output in skills), path-scoped skill activation, and a PreToolUse safety hook.",
   "author": {
     "name": "mhosavic"

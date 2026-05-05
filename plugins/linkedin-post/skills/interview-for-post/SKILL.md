@@ -6,6 +6,10 @@ argument-hint: <optional brief from the user>
 
 # Interview for LinkedIn post
 
+**Language.** Conduct the interview in the language the user is using
+(English / Français). Switch to French if their messages are in
+French, English otherwise.
+
 Gather just enough context to write a strong LinkedIn post. Ask **one question
 at a time** — don't dump a survey on the user.
 

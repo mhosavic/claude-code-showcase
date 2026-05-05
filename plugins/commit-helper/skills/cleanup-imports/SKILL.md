@@ -11,6 +11,9 @@ paths:
 
 # Cleanup imports
 
+**Language.** Respond in the language the user is using (English /
+Français). Code, identifiers, and import paths stay verbatim.
+
 This skill demonstrates **path-scoped activation** — the `paths:` frontmatter
 above means Claude only loads this skill into context when reading files
 matching one of those globs. If you're working in a Python repo, this skill

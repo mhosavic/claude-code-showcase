@@ -13,6 +13,14 @@ what's there. Walk through it the way an experienced engineer would
 introduce a junior to the codebase: file by file, with annotations on
 what each piece does and why.
 
+## Language
+
+This skill is bilingual (English / Français). Detect the user's
+language from the conversation — if their preceding messages are in
+French, deliver the walkthrough in French; otherwise English. Code
+quotes, file paths, and identifiers stay verbatim in either language.
+Use the glossary in `tour/SKILL.md` for term consistency.
+
 ## Step 1 — Resolve the target
 
 `$ARGUMENTS` can be one of:

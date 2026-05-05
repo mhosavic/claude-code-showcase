@@ -13,7 +13,7 @@
       "description": "Single-skill plugin: /draft-email:draft writes a polite, well-structured email from a one-line description.",
       "category": "productivity",
       "tags": ["skill", "writing", "starter"],
-      "version": "0.1.4",
+      "version": "0.1.6",
       "author": {
         "name": "mhosavic"
       }
@@ -24,7 +24,7 @@
       "description": "Mid-tier plugin demonstrating dynamic context injection (live shell output in skills), path-scoped skill activation, and a PreToolUse hook that blocks dangerous git commands.",
       "category": "development",
       "tags": ["git", "skill", "hook", "context-injection"],
-      "version": "0.1.4",
+      "version": "0.1.6",
       "author": {
         "name": "mhosavic"
       }
@@ -35,7 +35,7 @@
       "description": "Multi-skill orchestration plugin: interview the user, draft post text, generate an image, push the draft to LinkedIn. Includes a bundled stdio MCP server with credential-scoped tools and per-skill allowed-tools.",
       "category": "productivity",
       "tags": ["skill", "subagent", "mcp", "orchestration"],
-      "version": "0.1.4",
+      "version": "0.1.6",
       "author": {
         "name": "mhosavic"
       }
@@ -46,7 +46,7 @@
       "description": "Meta-plugin: an interactive guided tour (/showcase-tour:tour) and a 30-second health check (/showcase-tour:status). The tour itself uses every pattern it teaches — dynamic context injection, orchestration, disable-model-invocation — so it doubles as a worked example of skill-building.",
       "category": "learning",
       "tags": ["tour", "demo", "meta", "skill"],
-      "version": "0.1.4",
+      "version": "0.1.6",
       "author": {
         "name": "mhosavic"
       }

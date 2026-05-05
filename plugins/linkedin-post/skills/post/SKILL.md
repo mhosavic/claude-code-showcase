@@ -7,6 +7,12 @@ allowed-tools: mcp__linkedin-post__post_linkedin_draft
 
 # Post to LinkedIn — orchestrator
 
+**Language.** Run this orchestrator in the language the user is using
+(English / Français). Your interview questions, transitions, and
+status messages are all in their language. The post text itself
+follows the brief: if `$ARGUMENTS` is in French, the LinkedIn post is
+in French; same for English.
+
 You are coordinating a multi-step LinkedIn post workflow. Walk through these
 steps **in order** and never skip ahead. If the user provides input out of
 order, set it aside and return to the current step.

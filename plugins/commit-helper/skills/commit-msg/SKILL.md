@@ -7,6 +7,11 @@ allowed-tools: Bash(git status *), Bash(git diff *), Bash(git log *), Bash(git r
 
 # Write commit message
 
+**Language.** Respond in the language the user is using in the
+conversation (English / Français). The commit message itself stays in
+whichever language matches the project's existing commit history (look
+at the recent commits below).
+
 This skill demonstrates **dynamic context injection**: the bang-prefixed
 shell blocks below run BEFORE the prompt reaches Claude. The output replaces
 the placeholder, so Claude sees actual diffs, not "go look at the diff."
