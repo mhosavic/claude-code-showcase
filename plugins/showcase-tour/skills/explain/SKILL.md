@@ -56,8 +56,14 @@ That's it. Don't over-explain.
 
 ### Case 2: `$ARGUMENTS` matches a concept exactly
 
-Read the corresponding `references/<concept>.md` file and follow its
-structure. Each reference file follows the same teaching template:
+**Pick the language version of the reference file:**
+
+- If the user is conversing in **English** → read
+  `references/<concept>.md`.
+- If the user is conversing in **French** → read
+  `references/<concept>.fr.md` (every concept has a `.fr.md` sibling).
+
+Each reference file follows the same teaching template:
 
 1. **What** — one-sentence definition
 2. **Mental model** — the analogy or framing that makes it click
@@ -65,8 +71,10 @@ structure. Each reference file follows the same teaching template:
 4. **When to use vs alternatives** — trade-offs against related concepts
 5. **Try this** — exact next step
 
-Walk the user through the file. Be conversational, not a markdown reader —
-say "the key insight is X" rather than "Section 2 says X."
+The section headings are in English in both language versions
+(structural anchors); narrate them naturally in the user's language —
+say "the key insight is X" / « le point-clé, c'est X » rather than
+"Section 2 says X." Be conversational, not a markdown reader.
 
 After the lesson, end with the **Try this** section's command and a
 suggested *next concept* — for example, if they just learned about skills,

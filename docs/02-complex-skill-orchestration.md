@@ -145,6 +145,26 @@ Subagent path:
 Use the post-coordinator subagent to draft a LinkedIn post about our beta launch
 ```
 
+## In Cowork
+
+The orchestration pattern transfers cleanly. A multi-skill plugin with
+an orchestrator + sub-skills works in Cowork with two changes:
+
+1. **The MCP server runs as HTTP**, not stdio (see Q4 / Q5). The
+   `linkedin-post` plugin already ships both transports; for Cowork you
+   point it at the HTTP entry point and register the URL as a custom
+   connector.
+2. **The skills come from `claude.com/plugins`**, not your custom
+   marketplace (see Q1).
+
+Sub-skill chaining, `disable-model-invocation: true`, `allowed-tools`,
+and per-skill MCP scoping are all honored identically by Cowork. The
+subagent pattern (`post-coordinator.md`) is also Cowork-compatible —
+Cowork supports custom agents the same way.
+
+Full Cowork answer for Q2: see
+[`07-using-with-cowork.md`](07-using-with-cowork.md#q2--complex-orchestration-in-cowork).
+
 ## Next
 
 [`03-team-distribution.md`](03-team-distribution.md) — how to ship this to

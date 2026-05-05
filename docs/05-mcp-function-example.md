@@ -374,6 +374,48 @@ Use stdio (like this showcase) when:
 - Each user provides their own credentials.
 - You want one-binary distribution.
 
+## In Cowork
+
+The MCP protocol itself is identical across transports — same tools,
+same prompts, same resources, same Zod schemas. Only the entry-point
+changes. This showcase already structures the code that way:
+
+```typescript
+// src/server-builder.ts — shared across both transports
+const server = new McpServer({ name: "linkedin-post", version: "..." }, {...});
+server.registerTool("generate_image", {...}, handler);
+server.registerTool("post_linkedin_draft", {...}, handler);
+server.registerPrompt("compose_post", {...}, handler);
+server.registerResource("style_guide", STYLE_GUIDE_URI, {...}, handler);
+return server;
+
+// src/server.ts (stdio, Claude Code)
+const transport = new StdioServerTransport();
+await server.connect(transport);
+
+// src/server-http.ts (Streamable HTTP, Cowork)
+const transport = new StreamableHTTPServerTransport({
+  sessionIdGenerator: () => randomUUID(),
+});
+await server.connect(transport);
+const app = createMcpExpressApp({ host: HOST });
+app.post("/mcp", (req, res) => transport.handleRequest(req, res, req.body));
+app.listen(PORT, HOST);
+```
+
+Three lines of transport setup are the entire Cowork delta. All the
+business logic — image generation, LinkedIn post creation, mock-mode
+short-circuit, schema validation, error handling — is shared. The
+test suite covers both: 25 unit tests against the shared modules + 3
+end-to-end protocol tests against the HTTP transport.
+
+For Cloudflare Workers / Deno / Bun environments, swap
+`StreamableHTTPServerTransport` for
+`WebStandardStreamableHTTPServerTransport` (the SDK provides both).
+
+Full Cowork answer for Q5: see
+[`07-using-with-cowork.md`](07-using-with-cowork.md#q5--example-mcp-function-in-cowork).
+
 ## Next
 
 [`06-claude-team-connectors.md`](06-claude-team-connectors.md) — making MCP

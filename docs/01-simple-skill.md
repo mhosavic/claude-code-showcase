@@ -111,6 +111,24 @@ namespaced — they're invoked just as `/commit`. The trade-off:
 /draft-email:draft thank my mentor for the coffee chat last week
 ```
 
+## In Cowork
+
+The same `SKILL.md` format and frontmatter work in Cowork — Anthropic's
+plugin schema is shared between Claude Code and Cowork. What changes
+is **distribution**: Cowork users install plugins from
+`claude.com/plugins`, not from a custom GitHub marketplace. Three
+practical paths:
+
+| Path | When to use |
+|---|---|
+| **Submit to `claude.com/plugins`** at <https://claude.ai/settings/plugins/submit> | The skill is generally useful; you want Cowork users to discover it. |
+| **Use Project custom instructions** | Single-project use; copy the skill body into a Cowork Project's instructions. No `/draft-email:draft` command, but the behavior is available in that project. |
+| **Wait for managed admin push** | Anthropic's Team / Enterprise admin marketplace push covers Claude Code today; Cowork support is rolling out. |
+
+The skill body itself is identical. See
+[`07-using-with-cowork.md`](07-using-with-cowork.md#q1--simple-skill-in-cowork)
+for the side-by-side answer.
+
 ## Next
 
 Now that the simple case is clear, see how a multi-step skill orchestrates

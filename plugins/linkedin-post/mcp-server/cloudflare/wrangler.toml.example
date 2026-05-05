@@ -1,0 +1,36 @@
+# Wrangler config for deploying the linkedin-post MCP server to
+# Cloudflare Workers. Copy this to `wrangler.toml` (without
+# `.example`) and edit `name`, `route`, and your secrets.
+#
+# Then from this directory:
+#   wrangler login
+#   wrangler deploy
+#
+# To set credentials (real mode), use `wrangler secret put`:
+#   wrangler secret put OPENAI_API_KEY
+#   wrangler secret put LINKEDIN_ACCESS_TOKEN
+#   wrangler secret put LINKEDIN_PERSON_URN
+
+name = "linkedin-post-mcp"
+main = "../src/cloudflare-worker.ts"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Default environment variables (non-secret).
+# Override per-environment with [env.production.vars] etc.
+[vars]
+MOCK_MODE = "true"
+
+# Uncomment and set this to your worker's deployed hostname for DNS
+# rebinding protection. Use the canonical hostname only — wrangler
+# auto-includes <name>.<account>.workers.dev plus any custom routes.
+# ALLOWED_HOSTS = "linkedin-post-mcp.your-team.workers.dev,mcp.your-team.com"
+
+# Uncomment and set if you've configured a custom domain.
+# routes = [
+#   { pattern = "mcp.your-team.com", custom_domain = true },
+# ]
+
+# Observability — recommended for production deployments.
+[observability]
+enabled = true

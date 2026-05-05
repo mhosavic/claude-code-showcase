@@ -243,6 +243,27 @@ If your marketplace repo is private:
   `~/.zshrc` / `~/.bashrc` or distribute it via your team's secret-management
   flow.
 
+## In Cowork
+
+This is the question where Claude Code and Cowork diverge most.
+Custom GitHub marketplaces (`/plugin marketplace add <repo>`) are
+**Claude Code-only** today. For Cowork, the distribution paths are:
+
+| Cowork path | What it is | Status |
+|---|---|---|
+| **`claude.com/plugins` submission** | Submit at <https://claude.ai/settings/plugins/submit>. Once accepted, every Cowork user can install. | Available now. |
+| **Server-managed `enabledPlugins` push** | Team / Enterprise admin pushes plugins via managed settings from the Claude.ai admin console. | Works for Claude Code today; Cowork support **rolling out**. |
+| **Project-level custom instructions** | For one-off, project-specific use: paste the skill body into a Cowork Project's custom instructions. | Available now. |
+| **Custom connectors for MCP servers** | Distribution gap closed at the MCP layer: any Cowork user adds an HTTP MCP URL via Settings → Connectors → Add custom connector. Org admins can register an org-wide connector via Anthropic support. | Available now. |
+
+So for Francis's team today: if the value is mostly in the MCP server
+(LinkedIn integration), use the connector path — it works in both
+surfaces immediately. If the value is in skills and orchestration,
+submit to `claude.com/plugins` for Cowork reach.
+
+Full Cowork answer for Q3: see
+[`07-using-with-cowork.md`](07-using-with-cowork.md#q3--sharing-with-the-team).
+
 ## Next
 
 Once you can distribute, the next question is: how does the *MCP server*

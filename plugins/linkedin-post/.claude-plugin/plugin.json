@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "linkedin-post",
-  "version": "0.1.6",
+  "version": "0.1.9",
   "description": "Orchestrated LinkedIn post workflow: interview the user, draft text, generate an image, push the draft. Bundles a stdio MCP server with two credential-scoped tools and demonstrates per-skill allowed-tools.",
   "author": {
     "name": "mhosavic"

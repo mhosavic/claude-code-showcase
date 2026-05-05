@@ -136,6 +136,30 @@ connectors automatically appear in Cowork too. Plugin-bundled MCP servers
 manually accepts them; a fully org-wide push for stdio plugins to Cowork is
 [still being unified with Claude Code](07-using-with-cowork.md).
 
+## In Cowork
+
+This is the question where Claude Code and Cowork are most aligned —
+**Path A is identical in both surfaces**:
+
+1. Deploy your MCP server as HTTP (e.g. our `server-http.ts` running
+   behind HTTPS).
+2. Register it as an organization connector via Anthropic support.
+3. Every Claude Code user **and every Cowork user** in the org sees
+   it without manual setup.
+
+For a single Cowork user (no admin, no org-wide rollout), the same
+HTTP URL is also addable as a **personal custom connector** through
+Cowork's Settings → Connectors → Add custom connector. So Path A is
+strictly better for Cowork: it works at both the org level (admin)
+and the individual level (user) without any plumbing changes.
+
+Path B (bundled stdio MCP plugin) is **Claude Code-only**. To reach
+Cowork users, the same MCP server needs an HTTP variant — which this
+showcase provides as `src/server-http.ts`.
+
+Full Cowork deploy guide: see
+[`07-using-with-cowork.md#deploy-guide`](07-using-with-cowork.md#deploy-guide).
+
 ## Next
 
 [`07-using-with-cowork.md`](07-using-with-cowork.md) — Cowork compatibility

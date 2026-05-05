@@ -15,6 +15,15 @@ français. La visite guidée demande la langue au début ; les autres
 skills détectent la langue de la conversation et s'y adaptent. Lance
 `/showcase-tour:tour fr` pour commencer directement en français.
 
+**Works with both Claude Code and Claude Cowork.** The skills,
+orchestration, and per-skill tool scoping transfer cleanly to Cowork
+once you publish through `claude.com/plugins`. The LinkedIn MCP server
+ships with **two transport entry points** — `server.ts` (stdio, for
+Claude Code) and `server-http.ts` (Streamable HTTP, for Cowork's
+custom-connector flow). Same business logic, two transports. See
+[`docs/07-using-with-cowork.md`](docs/07-using-with-cowork.md) for the
+full Cowork track answering each of the questions below.
+
 | # | Question | Where to look |
 |---|---|---|
 | 1 | What does the file structure of a **simple skill** look like? | `plugins/draft-email/` + [`docs/01-simple-skill.md`](docs/01-simple-skill.md) |

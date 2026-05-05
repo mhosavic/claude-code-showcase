@@ -241,6 +241,43 @@ The MCP server's `mcpServers.env.NODE_PATH` is set to
 `${CLAUDE_PLUGIN_DATA}/node_modules` so the compiled server picks up the
 installed deps at runtime.
 
+## In Cowork
+
+The same TypeScript server in `mcp-server/src/` ships with **two
+transport entry points** — both reusing the same `server-builder.ts`,
+the same `auth.ts`, the same tools / prompts / resources:
+
+| File | Transport | Where it runs |
+|---|---|---|
+| `src/server.ts` | stdio | Claude Code (bundled inside the plugin) |
+| `src/server-http.ts` | Streamable HTTP | Cowork (custom connector), Claude Code remote, any MCP client |
+
+Run the HTTP variant locally:
+
+```bash
+cd plugins/linkedin-post/mcp-server
+MOCK_MODE=true npm run start:http
+# linkedin-post MCP server up (http, mock=true) — http://127.0.0.1:3000/mcp
+```
+
+**Credentials in Cowork.** The env-var contract is identical
+(`OPENAI_API_KEY`, `LINKEDIN_ACCESS_TOKEN`, `LINKEDIN_PERSON_URN`,
+`MOCK_MODE`). For a production Cowork deployment, the recommended
+upgrade is OAuth: the connector itself acts as an OAuth provider so
+each Cowork user authenticates with their own account and tokens land
+server-side keyed by user. The MCP SDK has helpers under
+`@modelcontextprotocol/sdk/server/auth/` for this.
+
+**Per-skill scoping in Cowork.** When Francis registers the HTTP
+server as a custom connector, Cowork's UI (Settings → Connectors →
+click the connector) lets him enable / disable individual tools on
+that connector. Functionally equivalent to `allowed-tools` in a
+Claude Code skill, applied at the connector level instead of the
+skill level.
+
+Full Cowork answer for Q4 + deploy guide: see
+[`07-using-with-cowork.md`](07-using-with-cowork.md#q4--mcp-server-with-credentials-and-per-skill-scoping-http-variant).
+
 ## Next
 
 [`05-mcp-function-example.md`](05-mcp-function-example.md) — an annotated

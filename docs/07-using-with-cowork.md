@@ -1,105 +1,252 @@
-# Bonus — Using this with Claude Cowork
+# Q7 — Using this showcase with Claude Cowork
 
 > "He might want to use claude cowork with this project."
 
+> 🇫🇷 Version française : [`07-using-with-cowork.fr.md`](07-using-with-cowork.fr.md)
+
 Claude Cowork is the **Claude desktop app with agentic features** —
-sub-agents, file access, scheduled tasks, long-running tasks. It's separate
-from Claude Code CLI but shares a lot of the underlying skill / connector
-infrastructure.
+sub-agents, file access, scheduled tasks. It shares the same plugin /
+connector / MCP infrastructure as Claude Code, but with a different
+distribution model and surface.
 
-This page tells you what works today, what doesn't, and how to get the
-showcase plugins in front of Cowork users.
+This page is the **Cowork track** of the showcase. For each of
+Francis's six original questions, it shows what's the same in Cowork,
+what's different, and the recommended path today.
 
-## Cowork at a glance
+## TL;DR
 
-| | Claude Code (CLI / VS Code) | Claude Cowork (Desktop app) |
+| Concept | Claude Code | Claude Cowork |
 |---|---|---|
-| Install | `brew install claude-code` or `npm i -g @anthropic-ai/claude-code` | Download the [Claude desktop app](https://claude.com/download) |
-| Platforms | macOS, Linux (incl. WSL), Windows | macOS and Windows only — no web, no mobile |
-| Plans | Free / Pro / Max / Team / Enterprise | Pro / Max / Team / Enterprise (paid only) |
-| Primary surface | Terminal | GUI (the desktop app) |
-| File access | Wherever you launch the CLI | Folders you grant access to via the app |
-| Skills today | Plugin marketplace, project `.claude/skills/`, user `~/.claude/skills/` | Bundled skills + skills from the Claude.ai plugin marketplace |
-| MCP servers | `.mcp.json`, `claude mcp add`, plugin-bundled, admin-installed connectors | Admin-installed connectors |
-| Custom team plugins | Plugin marketplace (Path B in [Q6](06-claude-team-connectors.md)) | **Distribution path is converging — see below** |
+| Where plugins come from | Custom GitHub marketplaces (e.g. `mhosavic/claude-code-showcase`) **OR** `claude.com/plugins` | `claude.com/plugins` only (today) |
+| MCP servers | stdio (bundled) **OR** hosted HTTP (connector) | Hosted HTTP only — "Custom Connector" |
+| Skill model (`SKILL.md`) | Plugin skills, project skills, user skills | Plugin skills (from `claude.com/plugins`); per-conversation custom instructions live in **Projects** |
+| Per-skill scoping (`allowed-tools`) | Yes | Yes — same plugin format |
+| `disable-model-invocation`, etc. | Yes | Yes (same frontmatter) |
+| Hooks (`PreToolUse`, etc.) | Yes | No (Claude Code-specific) |
+| Bang-injection (`!`-blocks) | Yes | No (Claude Code-specific) |
+| `CLAUDE.md` / `.claude/rules/` | Yes | No (Cowork uses Project instructions) |
 
-## What works today
+The single biggest enabler for Cowork is that **`claude.com/plugins`
+is shared between Claude Code and Cowork** — plugins published there
+can target either or both. And **any Cowork user can add a custom MCP
+server URL** via Settings → Connectors → Add custom connector. So the
+LinkedIn MCP server in this showcase becomes Cowork-usable simply by
+running it as HTTP instead of stdio. No admin needed.
 
-✅ **Hosted HTTP MCP servers** — admin-installed connectors (Path A from
-[Q6](06-claude-team-connectors.md)) appear in Cowork too. The Notion
-connector, Slack connector, Atlassian connector, etc. — all the ones in the
-admin **Connectors** catalog work the same way in Cowork as in Claude Code.
+## Q1 — Simple skill, in Cowork
 
-✅ **Bundled skills from the official Anthropic marketplace** — Cowork ships
-with a set of pre-installed skills (research, writing, analysis, etc.) and
-can install additional ones from `claude.ai/plugins`.
+The `draft-email` plugin's `SKILL.md` is **identical** for Cowork. The
+file format, frontmatter, `$ARGUMENTS` substitution, `description`,
+`disable-model-invocation` — all the same. What changes is
+distribution:
 
-✅ **The `draft-email` plugin** — once published to the official marketplace
-(or made available via your team's marketplace), simple skills like this
-work in Cowork.
-
-## What's still in motion
-
-🟡 **Custom team plugins with bundled stdio MCP servers** (like our
-`linkedin-post` plugin). Cowork's plugin model is being unified with Claude
-Code's. The path that *works today* is:
-
-1. Use Path A from [Q6](06-claude-team-connectors.md) for the MCP server —
-   host it as an HTTP service, register as a connector in the admin
-   console.
-2. Ship the skills (without the bundled MCP server) via the plugin
-   marketplace.
-3. The skills land in Cowork via the marketplace; the MCP tools land via
-   the connector. Functionally equivalent to the all-in-one stdio plugin,
-   just split into two pieces.
-
-🟡 **Server-managed `enabledPlugins` for Cowork** — admin push works for
-Claude Code today; Cowork honors many of the same managed settings but the
-plugin push path specifically is rolling out.
-
-## Concrete recommendations for your team
-
-If Francis (and your team) wants to use Cowork with the showcase:
-
-1. **Try the plugins in Claude Code first.** Cowork is a different surface;
-   getting the plugins right in CLI is the foundation.
-
-2. **For the LinkedIn workflow specifically** — if you eventually want it in
-   Cowork, plan to **promote the MCP server from stdio (this showcase) to
-   HTTP-hosted**. That means: wrap the same two tools (`generate_image`,
-   `post_linkedin_draft`) in an Express/Fastify app, deploy somewhere your
-   team can reach (a Cloudflare Worker, AWS Lambda, internal VM, etc.), and
-   register it as a custom connector via Anthropic support.
-
-3. **Until then, run the workflow in Claude Code** — it's a more capable
-   surface for plugin development anyway, and it's where you'd debug
-   anything that breaks.
-
-4. **Read the Cowork docs**: <https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork>.
-   Cowork features ship roughly monthly; the gap between Claude Code and
-   Cowork is closing fast.
-
-## How to think about it
-
-| Goal | Use |
+| Path | What it looks like |
 |---|---|
-| Heads-down individual coding work | Claude Code CLI / VS Code |
-| Knowledge work (docs, slides, spreadsheets, file processing) | Cowork |
-| Mobile-friendly delegation (start a task, walk away) | Claude Code on the web (`claude.ai/code`) or Cowork's mobile-app delegation |
-| Team-wide tool access via OAuth | Connectors (Path A in [Q6](06-claude-team-connectors.md)) — works in both Claude Code and Cowork |
-| Custom internal workflows with bundled tools | Plugin + marketplace (Path B) — best in Claude Code today, expanding to Cowork |
+| **A. Submit to `claude.com/plugins`** (recommended for shared use) | Plugin lives in Anthropic's catalog. Cowork users browse Settings → Plugins → install. Works in Claude Code too. |
+| **B. Use Project instructions** (one-off, per-project) | Open a Project in Cowork, paste the skill body into the project's custom instructions. No `/draft-email:draft` command, but the behavior is available in that project. |
+| **C. Wait for managed admin push** | Anthropic is rolling out the Claude Team admin marketplace push so a custom GitHub marketplace can land in Cowork. Today this works for Claude Code; Cowork support is in motion. |
 
-Cowork isn't "another Claude Code" — it's Claude *adapted for non-engineering
-work surfaces*. If your team is mostly knowledge workers, Cowork is probably
-the right primary surface and the plugin development happens in Claude Code
-on the developers' side.
+For Francis's team: pick **A** if `draft-email` should be available
+universally, **B** if it's project-specific.
+
+## Q2 — Complex orchestration, in Cowork
+
+`linkedin-post`'s 4-skill orchestration (`interview` → `draft-text` →
+`generate-image` → `post`) works in Cowork the same way it works in
+Claude Code, with two transport changes:
+
+1. **The MCP server runs as HTTP**, not stdio. See Q4/Q5 below for the
+   code.
+2. **The skills come from `claude.com/plugins`** (or Project
+   instructions, per Q1).
+
+Sub-skill chaining works the same — Cowork can call sub-skills from
+an orchestrator's body. The `disable-model-invocation: true` and
+`allowed-tools` frontmatter are honored identically.
+
+## Q3 — Sharing with the team
+
+| Distribution path | Claude Code | Cowork |
+|---|---|---|
+| GitHub-hosted custom marketplace (`/plugin marketplace add owner/repo`) | ✅ | ❌ today |
+| `claude.com/plugins` submission | ✅ (auto-available) | ✅ (auto-available) |
+| Server-managed `enabledPlugins` push (Team / Enterprise admin console) | ✅ today | 🟡 rolling out |
+
+For Cowork-first teams today: the practical answer is "submit to
+`claude.com/plugins`" or use Project-level custom instructions per
+project.
+
+## Q4 — MCP server with credentials and per-skill scoping (HTTP variant)
+
+The same TypeScript server in `plugins/linkedin-post/mcp-server/`
+ships with **two transport entry points**:
+
+| File | Transport | Where it runs |
+|---|---|---|
+| `src/server.ts` | stdio | Claude Code (bundled inside the plugin) |
+| `src/server-http.ts` | Streamable HTTP | Cowork (custom connector), Claude Code remote, any MCP client |
+
+Both call into the same `src/server-builder.ts` — same tools, same
+prompts, same resources, same `auth.ts`, same mock mode. Switching
+transport is a 3-line change at the entry point.
+
+The HTTP server respects the same env-var contract:
+- `MOCK_MODE=true` (default) — no real API calls
+- `OPENAI_API_KEY` — for `generate_image` in real mode
+- `LINKEDIN_ACCESS_TOKEN` + `LINKEDIN_PERSON_URN` — for `post_linkedin_draft`
+- `PORT=3000` (default), `HOST=127.0.0.1` (default), `MCP_PATH=/mcp` (default)
+- `ALLOWED_HOSTS` — comma-separated list for DNS rebinding protection
+  on non-localhost hosts
+
+To run locally:
+
+```bash
+cd plugins/linkedin-post/mcp-server
+npm install
+npm run build
+MOCK_MODE=true npm run start:http
+# linkedin-post MCP server up (http, mock=true) — http://127.0.0.1:3000/mcp
+```
+
+Per-skill scoping in Cowork: when Francis adds the HTTP server as a
+custom connector, Cowork's UI lets him **enable or disable individual
+tools** per connector (Settings → Connectors → click the connector →
+Tools list). Equivalent to `allowed-tools` in a Claude Code skill, just
+applied at the connector level instead of the skill level.
+
+## Q5 — Example MCP function, in Cowork
+
+The MCP protocol is identical across stdio and HTTP — same `tools/`,
+same `prompts/`, same `resources/`, same Zod schemas. The only file
+that's transport-specific is the entry point.
+
+`src/server-builder.ts`:
+
+```typescript
+// Imports + server construction (identical for both transports).
+const server = new McpServer({ name: "linkedin-post", version: "0.1.0" }, {...});
+server.registerTool("generate_image", {...}, handler);
+server.registerTool("post_linkedin_draft", {...}, handler);
+server.registerPrompt("compose_post", {...}, handler);
+server.registerResource("style_guide", STYLE_GUIDE_URI, {...}, handler);
+return server;
+```
+
+`src/server.ts` (stdio):
+```typescript
+const transport = new StdioServerTransport();
+await server.connect(transport);
+```
+
+`src/server-http.ts` (HTTP):
+```typescript
+const transport = new StreamableHTTPServerTransport({
+  sessionIdGenerator: () => randomUUID(),
+});
+await server.connect(transport);
+const app = createMcpExpressApp({ host: HOST });
+app.post("/mcp", (req, res) => transport.handleRequest(req, res, req.body));
+app.listen(PORT, HOST);
+```
+
+That's the full transport delta. All the business logic — image
+generation, LinkedIn post creation, mock-mode short-circuit, schema
+validation, error handling — is shared.
+
+## Q6 — Adding the MCP server to Cowork
+
+For an individual Cowork user (no admin needed):
+
+1. Deploy the HTTP server somewhere reachable (see [Deploy guide](#deploy-guide) below).
+2. In Cowork: **Settings → Connectors → Add custom connector**.
+3. Enter the deployed URL (e.g. `https://linkedin-post.example.com/mcp`).
+4. Authenticate (if the deployment uses OAuth — see auth note below).
+5. The two tools, one prompt, and one resource appear in Cowork.
+
+For an org rollout: the same HTTP URL can be registered as an
+**organization connector** through Anthropic support. Once
+registered, every user in the org sees it without manual setup. This
+is Path A from [Q6](06-claude-team-connectors.md) and works in Cowork
+identically.
+
+## Deploy guide
+
+### Option 1 — A small VM (simplest)
+
+```bash
+# On a server (Linode / DigitalOcean / Hetzner / EC2):
+git clone https://github.com/mhosavic/claude-code-showcase.git
+cd claude-code-showcase/plugins/linkedin-post/mcp-server
+npm install
+npm run build
+
+# Run behind systemd / pm2 / etc. — bind to localhost and put nginx in front:
+HOST=127.0.0.1 PORT=3000 \
+  MOCK_MODE=false \
+  OPENAI_API_KEY=... LINKEDIN_ACCESS_TOKEN=... LINKEDIN_PERSON_URN=... \
+  npm run start:http
+```
+
+Front it with nginx + Let's Encrypt for HTTPS. Cowork requires HTTPS
+for non-localhost connectors.
+
+### Option 2 — Cloudflare Workers (cheapest, fastest)
+
+The Streamable HTTP transport has a Web-standard variant
+(`WebStandardStreamableHTTPServerTransport`) designed for Workers /
+Deno / Bun. Wrap `buildServer()` in a Workers `fetch` handler:
+
+```typescript
+// worker.ts (sketch — full version in a follow-up commit)
+import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
+import { buildServer } from "./server-builder.js";
+
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    if (new URL(request.url).pathname !== "/mcp") {
+      return new Response("Not Found", { status: 404 });
+    }
+    const config = { mockMode: env.MOCK_MODE === "true", openaiApiKey: env.OPENAI_API_KEY, ... };
+    const server = buildServer(config);
+    const transport = new WebStandardStreamableHTTPServerTransport({ sessionIdGenerator: () => crypto.randomUUID() });
+    await server.connect(transport);
+    return transport.handleRequest(request);
+  },
+};
+```
+
+Deploy with `wrangler deploy`. Set credentials via `wrangler secret put`.
+
+### Option 3 — Vercel / Lambda
+
+Wrap the Express app from `server-http.ts` as a serverless handler.
+For Vercel, drop the file in `api/mcp.ts` and export the Express app
+as the default. For Lambda, use `serverless-http` to adapt.
+
+## Authentication (real mode)
+
+The current showcase uses environment variables for credentials. For a
+production Cowork connector, the recommended path is **OAuth**: have
+the connector itself act as an OAuth provider so each Cowork user
+authenticates with their own LinkedIn / OpenAI account, and tokens
+land server-side keyed by Cowork user ID. The MCP SDK has built-in
+OAuth helpers under `@modelcontextprotocol/sdk/server/auth/`. That's
+beyond this showcase's pedagogy, but the auth.ts module is structured
+so you can swap env-var loading for a per-request token lookup.
+
+## What about Cowork-specific features that aren't in Claude Code?
+
+Cowork offers some capabilities Claude Code doesn't (file picker UI,
+scheduled tasks, mobile delegation). They're not part of this
+showcase's scope, but if Francis uses them, the LinkedIn MCP server
+runs underneath them identically — Cowork is just another MCP client.
 
 ## Where to go for help
 
-- **Cowork-specific issues**: support tab inside the desktop app, or
+- **Cowork issues**: support tab in the desktop app, or
   <https://support.claude.com>.
-- **Plugin / MCP issues**: `claude --debug` from the CLI is the fastest way
-  to surface load errors. The `/plugin` Errors tab is the second-fastest.
-- **Connectors / admin push**: Claude.ai admin console under
-  Admin Settings → Claude Code, or Anthropic support for organization-level
-  custom connectors.
+- **Custom connector setup**: <https://modelcontextprotocol.io/docs/develop/connect-remote-servers>
+- **Plugin / MCP issues**: `claude --debug` from the Claude Code CLI
+  is the fastest way to surface load errors that affect both
+  surfaces.
+- **Submitting to `claude.com/plugins`**: <https://claude.ai/settings/plugins/submit>
