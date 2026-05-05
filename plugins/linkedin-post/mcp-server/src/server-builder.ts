@@ -2,6 +2,7 @@
 // (server.ts) and the HTTP entry point (server-http.ts). Same tools,
 // same prompts, same resources — only the transport differs.
 
+import { createRequire } from "node:module";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { ServerConfig } from "./auth.js";
 import {
@@ -18,11 +19,18 @@ import {
 } from "./prompts/composer.js";
 import { STYLE_GUIDE, STYLE_GUIDE_URI } from "./resources/style-guide.js";
 
+// Read the version from package.json at runtime so the MCP server's
+// `serverInfo.version` (visible to clients) stays in lockstep with
+// the npm-package version. Bumping just package.json propagates here.
+const pkg = createRequire(import.meta.url)("../package.json") as {
+  version: string;
+};
+
 export function buildServer(config: ServerConfig): McpServer {
   const server = new McpServer(
     {
       name: "linkedin-post",
-      version: "0.1.0",
+      version: pkg.version,
     },
     {
       instructions: [

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>claude-code-showcase — pour Francis</title>
+<meta name="description" content="Réponses aux six questions de Francis sur Claude Code, avec du code, des docs, et une visite guidée. Le serveur MCP fonctionne aussi dans Cowork comme connecteur.">
+<style>
+  :root {
+    --bg: #FAF7F2;
+    --surface: #FFFFFF;
+    --ink: #1F1B16;
+    --muted: #6E665B;
+    --line: #E8DFD3;
+    --accent: #C2410C;
+    --accent-soft: #FEF3E7;
+    --code-bg: #F4ECDF;
+    --code-ink: #2D241A;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 64px 24px 96px;
+  }
+  header.hero { margin-bottom: 48px; }
+  .pill {
+    display: inline-block;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 5px 12px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  h1 {
+    font-size: 38px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+    font-weight: 700;
+  }
+  h2 {
+    font-size: 22px;
+    line-height: 1.25;
+    margin: 56px 0 16px;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+  }
+  h2 .stepnum {
+    color: var(--muted);
+    font-weight: 500;
+    margin-right: 6px;
+  }
+  h3 {
+    font-size: 17px;
+    margin: 0 0 6px;
+    font-weight: 600;
+  }
+  p {
+    margin: 0 0 16px;
+    color: var(--ink);
+  }
+  .lede {
+    font-size: 19px;
+    color: #2A241D;
+    margin-bottom: 24px;
+  }
+  a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+  a:hover { color: #8B2E08; }
+  code {
+    font-family: ui-monospace, "SF Mono", "Menlo", Consolas, monospace;
+    font-size: 0.9em;
+    background: var(--code-bg);
+    color: var(--code-ink);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+  pre {
+    background: var(--code-bg);
+    color: var(--code-ink);
+    padding: 18px 20px;
+    border-radius: 10px;
+    overflow-x: auto;
+    margin: 16px 0;
+    font-family: ui-monospace, "SF Mono", "Menlo", Consolas, monospace;
+    font-size: 14px;
+    line-height: 1.55;
+    border-left: 3px solid var(--accent);
+  }
+  pre code {
+    background: none;
+    padding: 0;
+    font-size: inherit;
+  }
+  .cta-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin: 20px 0;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.02), 0 6px 24px rgba(0,0,0,0.04);
+  }
+  .cta-card .label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    font-weight: 600;
+    margin: 0 0 6px;
+  }
+  .cta-card pre { margin: 10px 0 0; }
+  .cta-card .hint { color: var(--muted); font-size: 14px; margin: 14px 0 0; }
+  .qcard {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 14px 0;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .qcard:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .qcard .qnum {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 2px 10px;
+    border-radius: 100px;
+    margin-bottom: 10px;
+  }
+  .qcard h3 { margin: 0 0 10px; font-size: 17px; line-height: 1.35; }
+  .qcard p { font-size: 15.5px; margin: 0 0 10px; color: #2A241D; }
+  .qcard .where {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 0;
+  }
+  .qcard .where code { font-size: 13px; }
+  .qcard .where a + a { margin-left: 4px; }
+  .qcard .cowork {
+    margin: 12px 0 8px;
+    padding: 10px 14px;
+    background: var(--accent-soft);
+    border-radius: 8px;
+    font-size: 14.5px;
+    color: #2A241D;
+  }
+  .qcard .cowork strong { color: var(--accent); }
+  .quote {
+    border-left: 3px solid var(--line);
+    padding: 4px 0 4px 16px;
+    color: var(--muted);
+    font-style: italic;
+    margin: 0 0 14px;
+    font-size: 15px;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 56px 0;
+  }
+  footer {
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+  footer p { color: var(--muted); margin: 0 0 8px; }
+  @media (max-width: 600px) {
+    .wrap { padding: 40px 18px 64px; }
+    h1 { font-size: 30px; }
+    h2 { font-size: 20px; margin: 44px 0 14px; }
+    .lede { font-size: 17px; }
+    body { font-size: 16px; }
+    pre { font-size: 13px; padding: 14px 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <h1>claude-code-showcase</h1>
+</header>
+
+<h2><span class="stepnum">1.</span>Installer</h2>
+
+<p>
+  Deux chemins, choisis selon ce que tu veux faire.
+</p>
+
+<div class="cta-card">
+  <p class="label">Option A — cloner le repo (recommandé)</p>
+  <pre><code>git clone https://github.com/mhosavic/claude-code-showcase.git
+cd claude-code-showcase
+claude</code></pre>
+  <p class="hint">
+    Le repo embarque un <code>.claude/settings.json</code> qui propose
+    les quatre plugins au premier lancement — tu n'as qu'à accepter le
+    prompt. Avantage : tu as le code en local pour le lire dans ton
+    éditeur, et <code>/showcase-tour:inspect</code> peut te promener
+    dans n'importe quel fichier.
+  </p>
+</div>
+
+<div class="cta-card">
+  <p class="label">Option B — installer juste les plugins (sans cloner)</p>
+  <pre><code>/plugin marketplace add mhosavic/claude-code-showcase
+/plugin install draft-email@claude-code-showcase
+/plugin install commit-helper@claude-code-showcase
+/plugin install linkedin-post@claude-code-showcase
+/plugin install showcase-tour@claude-code-showcase
+/reload-plugins</code></pre>
+  <p class="hint">
+    À taper directement dans Claude Code, depuis n'importe quel
+    répertoire. Plus rapide; tu n'as juste pas le code source en
+    local pour le lire dans ton éditeur (mais
+    <code>/showcase-tour:inspect</code> fonctionne quand même contre
+    les copies en cache des plugins).
+  </p>
+</div>
+
+<h2><span class="stepnum">2.</span>Lancer la visite guidée</h2>
+
+<p>
+  Une fois les plugins installés, dans Claude Code :
+</p>
+
+<pre><code>/showcase-tour:tour fr</code></pre>
+
+<p>
+  Compte ~15 minutes. Elle te promène à travers les six questions,
+  une à la fois, avec une commande exacte à essayer pour chacune. Tu
+  peux aussi passer <code>quick</code> (5 min, juste l'essentiel) ou
+  <code>deep</code> (30 min, on regarde le code).
+</p>
+
+<h2><span class="stepnum">3.</span>Tes six questions, répondues</h2>
+
+<p>
+  Les cartes ci-dessous sont là pour que tu puisses naviguer si tu
+  veux sauter des sections. Chacune renvoie au code et au doc
+  correspondant. Quand le pattern fonctionne différemment dans
+  Cowork, c'est noté.
+</p>
+
+<div class="qcard">
+  <span class="qnum">Q1</span>
+  <h3>La structure d'un skill simple — exemple : rédiger un courriel</h3>
+  <p class="quote">"La structure des fichiers pour un skill simple (exemple, rédiger un courriel)."</p>
+  <p>
+    Trois fichiers en tout : le manifest, le <code>SKILL.md</code>,
+    et le README. Un skill, c'est un prompt en markdown avec un
+    en-tête YAML — Claude le déclenche quand tu tapes
+    <code>/draft-email:draft</code>.
+  </p>
+  <div class="cowork"><strong>Dans Cowork</strong> : même structure
+    de fichier. La distribution change : un skill atterrit dans
+    Cowork via une soumission au catalogue à
+    <code>claude.com/plugins</code>, ou en collant le corps du skill
+    dans les instructions personnalisées d'un Project.</div>
+  <p class="where">
+    Code : <a href="https://github.com/mhosavic/claude-code-showcase/tree/main/plugins/draft-email">plugins/draft-email/</a>
+    &nbsp;·&nbsp;
+    Doc : <a href="https://github.com/mhosavic/claude-code-showcase/blob/main/docs/01-simple-skill.md">docs/01-simple-skill.md</a>
+  </p>
+</div>
+
+<div class="qcard">
+  <span class="qnum">Q2</span>
+  <h3>Orchestration d'un skill complexe — un post LinkedIn</h3>
+  <p class="quote">"Un projet qui a comme tâche de faire un post LinkedIn avec plusieurs skills qui lui sont propres : questionner l'utilisateur, générer le texte, générer l'image, pousser le brouillon."</p>
+  <p>
+    Pile ce que tu décris. <code>/linkedin-post:post</code> est un
+    skill orchestrateur qui appelle quatre sous-skills dans l'ordre :
+    entrevue → rédaction → génération d'image → publication. Plus un
+    sous-agent en alternative (<code>post-coordinator</code>) qui
+    montre le pattern « subagent-as-orchestrator ».
+  </p>
+  <div class="cowork"><strong>Dans Cowork</strong> : l'orchestration
+    fonctionne pareil. La seule différence c'est le serveur MCP
+    derrière (voir Q4) — il tourne en HTTP plutôt qu'en stdio, et
+    s'ajoute comme connecteur dans Paramètres → Connecteurs.</div>
+  <p class="where">
+    Code : <a href="https://github.com/mhosavic/claude-code-showcase/tree/main/plugins/linkedin-post">plugins/linkedin-post/</a>
+    &nbsp;·&nbsp;
+    Doc : <a href="https://github.com/mhosavic/claude-code-showcase/blob/main/docs/02-complex-skill-orchestration.md">docs/02-complex-skill-orchestration.md</a>
+  </p>
+</div>
+
+<div class="qcard">
+  <span class="qnum">Q3</span>
+  <h3>Partage avec l'équipe dans Claude Team</h3>
+  <p class="quote">"Pour les skills simples, nous utilisons une marketplace sur GitHub. Pour les skills complexes, comment les rendre disponibles?"</p>
+  <p>
+    Bonne nouvelle : c'est exactement le même mécanisme. Un plugin
+    complexe (avec sous-skills, sous-agent, serveur MCP) se distribue
+    via le même <code>marketplace.json</code> qu'un skill simple. La
+    différence se trouve dans le contenu du dossier
+    <code>plugins/&lt;nom&gt;/</code>. Trois patterns documentés :
+    ajout manuel par chaque dev, bootstrap automatique via
+    <code>extraKnownMarketplaces</code> dans le settings du projet,
+    ou push admin via les <em>server-managed settings</em>.
+  </p>
+  <div class="cowork"><strong>Dans Cowork</strong> : les marketplaces
+    GitHub personnalisés ne sont pas (encore) supportés. Les chemins
+    qui marchent aujourd'hui — soumission au catalogue Anthropic à
+    <code>claude.com/plugins</code>, instructions personnalisées d'un
+    Project, ou push admin (en cours de déploiement). Détails dans le
+    doc Cowork plus bas.</div>
+  <p class="where">
+    Doc : <a href="https://github.com/mhosavic/claude-code-showcase/blob/main/docs/03-team-distribution.md">docs/03-team-distribution.md</a>
+  </p>
+</div>
+
+<div class="qcard">
+  <span class="qnum">Q4</span>
+  <h3>Serveur MCP avec identifiants + restriction par skill</h3>
+  <p class="quote">"La structure d'un serveur MCP avec clés d'accès/identifiants (j'ai oublié le terme que tu m'as dit) pour gérer quelles fonctions peuvent être appelées par quels skills."</p>
+  <p>
+    Le terme c'est <strong><code>userConfig</code></strong> — un
+    champ du <code>plugin.json</code> qui déclare les identifiants à
+    demander à l'install. Claude Code les stocke dans le keychain de
+    l'OS, puis les injecte comme variables d'environnement quand le
+    serveur MCP démarre. La restriction par skill se fait via
+    <code>allowed-tools:</code> dans l'en-tête de chaque skill —
+    l'orchestrateur peut publier sur LinkedIn, le skill d'image peut
+    générer, l'entrevue n'a aucun accès au serveur.
+  </p>
+  <div class="cowork"><strong>Dans Cowork</strong> : le serveur MCP
+    embarque deux transports — stdio (Claude Code) et HTTP
+    Streamable (Cowork comme connecteur perso). Les identifiants
+    passent par variables d'environnement côté hébergement (ou OAuth
+    en production). La restriction par outil se fait dans
+    Paramètres → Connecteurs → ton connecteur, en activant ou
+    désactivant chaque outil.</div>
+  <p class="where">
+    Code : <a href="https://github.com/mhosavic/claude-code-showcase/tree/main/plugins/linkedin-post/mcp-server">plugins/linkedin-post/mcp-server/</a>
+    &nbsp;·&nbsp;
+    Doc : <a href="https://github.com/mhosavic/claude-code-showcase/blob/main/docs/04-mcp-server-with-auth.md">docs/04-mcp-server-with-auth.md</a>
+  </p>
+</div>
+
+<div class="qcard">
+  <span class="qnum">Q5</span>
+  <h3>Un exemple de fonction MCP</h3>
+  <p class="quote">"Un exemple de fonction MCP."</p>
+  <p>
+    <code>generate_image</code> — un outil MCP complet : schéma Zod
+    pour les arguments, mode simulation par défaut, vrai appel à
+    OpenAI gpt-image-1 en mode réel. Le repo couvre les trois
+    primitives MCP — <strong>outils</strong> (verbes que Claude
+    appelle), <strong>invites</strong> (commandes slash gabarits),
+    <strong>ressources</strong> (contenu attachable avec
+    <code>@</code>).
+  </p>
+  <div class="cowork"><strong>Dans Cowork</strong> : le code de la
+    fonction est identique — c'est le même protocole MCP. Seul le
+    point d'entrée change (HTTP au lieu de stdio). Les outils
+    apparaissent dans Cowork une fois le connecteur ajouté.</div>
+  <p class="where">
+    Code : <a href="https://github.com/mhosavic/claude-code-showcase/blob/main/plugins/linkedin-post/mcp-server/src/tools/images.ts">mcp-server/src/tools/images.ts</a>
+    &nbsp;·&nbsp;
+    Doc : <a href="https://github.com/mhosavic/claude-code-showcase/blob/main/docs/05-mcp-function-example.md">docs/05-mcp-function-example.md</a>
+  </p>
+</div>
+
+<div class="qcard">
+  <span class="qnum">Q6</span>
+  <h3>Ajouter un MCP dans Claude Team comme connecteur</h3>
+  <p class="quote">"Pour que nous n'aillions pas à le faire sur chaque poste si possible."</p>
+  <p>
+    Deux chemins. (a) <strong>Serveur MCP HTTP hébergé</strong> →
+    enregistré une fois dans la console admin Claude.ai → apparaît
+    automatiquement chez tous les utilisateurs. (b) <strong>Serveur
+    MCP stdio embarqué dans un plugin</strong> → distribué via le
+    marketplace poussé par les <em>server-managed settings</em>. Un
+    arbre de décision dans la doc pour choisir entre les deux.
+  </p>
+  <div class="cowork"><strong>Dans Cowork</strong> : le chemin (a)
+    fonctionne identiquement — c'est le seul point où Claude Code et
+    Cowork sont parfaitement convergents. Le chemin (b) est Claude
+    Code seulement, mais on règle ça en passant à (a) pour les
+    utilisateurs Cowork.</div>
+  <p class="where">
+    Doc : <a href="https://github.com/mhosavic/claude-code-showcase/blob/main/docs/06-claude-team-connectors.md">docs/06-claude-team-connectors.md</a>
+  </p>
+</div>
+
+<h2><span class="stepnum">4.</span>Cowork — ce qui traverse, ce qui ne traverse pas</h2>
+
+<p>
+  Voici ce qui marche et ce qui ne marche pas aujourd'hui :
+</p>
+
+<p>
+  <strong>Ce qui traverse</strong> — le serveur MCP (les outils, les
+  invites, les ressources). Le code est identique; seul le transport
+  change (HTTP au lieu de stdio). Tu déploies le serveur, ton équipe
+  l'ajoute via Paramètres → Connecteurs → Ajouter un connecteur
+  personnalisé, et les deux outils LinkedIn apparaissent.
+</p>
+
+<p>
+  <strong>Ce qui ne traverse pas (encore)</strong> — les skills
+  Claude Code (le format <code>SKILL.md</code> avec frontmatter
+  qu'on voit dans Q1, Q2). Pour les rendre disponibles dans Cowork
+  il faut soit soumettre le plugin au catalogue Anthropic, soit
+  coller le corps du skill dans les instructions personnalisées d'un
+  Project Cowork. La visite guidée elle-même est aussi Claude Code
+  seulement (elle est faite de skills).
+</p>
+
+<p>
+  J'ai écrit une page parallèle qui reprend chacune des six
+  questions avec le chemin Cowork détaillé — ce qui est pareil, ce
+  qui change. Plus un guide de déploiement Cloudflare Workers
+  (gratuit, 5 minutes) et une note sur OAuth pour la production.
+</p>
+
+<p>
+  Doc Cowork : <a href="https://github.com/mhosavic/claude-code-showcase/blob/main/docs/07-using-with-cowork.fr.md">docs/07-using-with-cowork.fr.md</a>
+  &nbsp;·&nbsp;
+  Déploiement : <a href="https://github.com/mhosavic/claude-code-showcase/blob/main/plugins/linkedin-post/mcp-server/cloudflare/README.md">cloudflare/README.md</a>
+</p>
+
+<p>
+  Si tu lances la visite avec le mode <code>cowork</code>, elle
+  saute les sujets Claude-Code-seulement (bang-blocks, hooks,
+  <code>CLAUDE.md</code>) et reformule Q4-Q5 autour du transport
+  HTTP :
+</p>
+
+<pre><code>/showcase-tour:tour cowork fr</code></pre>
+
+<h2><span class="stepnum">5.</span>Trois portes d'entrée pour explorer</h2>
+
+<p>
+  Si tu veux creuser plus loin que la visite guidée, le plugin
+  <code>showcase-tour</code> a deux autres skills :
+</p>
+
+<pre><code>/showcase-tour:explain skills              # leçon focalisée · ~5 min
+/showcase-tour:inspect plugins/linkedin-post   # marche-arrière du code</code></pre>
+
+<p>
+  <code>explain</code> a un catalogue de 13 leçons (skills, plugins,
+  marketplaces, MCP, hooks, etc.). <code>inspect</code> lit n'importe
+  quel fichier du repo et te le commente ligne par ligne.
+</p>
+
+<hr>
+
+<p>
+  Si tu bloques quelque part ou si tu veux qu'on en jase en personne
+  — c'est plus efficace en direct quand il y a des choix d'archi à
+  faire. Bonne lecture.
+</p>
+
+<p style="margin-top: 24px;">— Victor</p>
+
+<footer>
+  <p>
+    Repo : <a href="https://github.com/mhosavic/claude-code-showcase">github.com/mhosavic/claude-code-showcase</a>
+  </p>
+</footer>
+
+</div>
+</body>
+</html>

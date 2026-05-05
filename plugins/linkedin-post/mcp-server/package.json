@@ -1,6 +1,6 @@
 {
   "name": "linkedin-post-mcp-server",
-  "version": "0.1.0",
+  "version": "0.1.9",
   "description": "Stdio MCP server bundled with the linkedin-post Claude Code plugin. Two tools: post_linkedin_draft, generate_image.",
   "type": "module",
   "private": true,

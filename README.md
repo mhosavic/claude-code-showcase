@@ -2,27 +2,16 @@
 
 [![test](https://github.com/mhosavic/claude-code-showcase/actions/workflows/test.yml/badge.svg)](https://github.com/mhosavic/claude-code-showcase/actions/workflows/test.yml)
 
-Reference plugins for Claude Code. Built to answer six concrete questions
-about how to set up, distribute, and extend Claude Code on a real team —
-plus a Cowork-compatibility note.
+Reference plugins for Claude Code. Built to answer six concrete
+questions about how to set up, distribute, and extend Claude Code on
+a real team — plus a Cowork-compatibility note.
 
-**Bilingual.** All four plugins support English and Français. The
-showcase tour asks your preferred language at the start; every other
-skill detects the language from the conversation and matches it.
-Run `/showcase-tour:tour fr` to start directly in French. /
-**Bilingue.** Les quatre plugins fonctionnent en anglais et en
-français. La visite guidée demande la langue au début ; les autres
-skills détectent la langue de la conversation et s'y adaptent. Lance
-`/showcase-tour:tour fr` pour commencer directement en français.
-
-**Works with both Claude Code and Claude Cowork.** The skills,
-orchestration, and per-skill tool scoping transfer cleanly to Cowork
-once you publish through `claude.com/plugins`. The LinkedIn MCP server
-ships with **two transport entry points** — `server.ts` (stdio, for
-Claude Code) and `server-http.ts` (Streamable HTTP, for Cowork's
-custom-connector flow). Same business logic, two transports. See
-[`docs/07-using-with-cowork.md`](docs/07-using-with-cowork.md) for the
-full Cowork track answering each of the questions below.
+The skills and the guided tour run in Claude Code. The bundled MCP
+server ships with two transports — stdio (Claude Code) and
+Streamable HTTP (Claude Cowork via custom connector) — so the LinkedIn
+integration crosses both surfaces. See
+[`docs/07-using-with-cowork.md`](docs/07-using-with-cowork.md) for
+the per-question Cowork track.
 
 | # | Question | Where to look |
 |---|---|---|
