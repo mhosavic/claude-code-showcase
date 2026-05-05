@@ -13,7 +13,8 @@
   "enabledPlugins": {
     "draft-email@claude-code-showcase": true,
     "linkedin-post@claude-code-showcase": true,
-    "commit-helper@claude-code-showcase": true
+    "commit-helper@claude-code-showcase": true,
+    "showcase-tour@claude-code-showcase": true
   },
 
   "permissions": {

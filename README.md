@@ -19,9 +19,30 @@ It's a "middle tier" between simple and complex, demonstrating three
 features the others don't: dynamic context injection (`` !`cmd` `` blocks
 in skills), path-scoped skill activation, and a real PreToolUse hook.
 
+A fourth plugin, `plugins/showcase-tour/`, is a meta-plugin and a
+self-contained learning curriculum:
+
+- **`/showcase-tour:tour`** — interactive walkthrough of every feature.
+- **`/showcase-tour:explain <concept>`** — focused 5-minute concept
+  lesson. 12 concepts cover skills, plugins, marketplaces, scopes,
+  dynamic-injection, path-scoping, skill-controls, subagents, hooks,
+  and the MCP trio (mcp / mcp-tools / mcp-prompts-resources). With no
+  args, lists all 12 with one-line definitions (glossary mode).
+- **`/showcase-tour:inspect <target>`** — reads any file/plugin/skill in
+  the showcase and walks through it line-by-line with annotations.
+- **`/showcase-tour:status`** — 30-second installation health check.
+
+The plugin's skills compose: the tour suggests `explain` and `inspect`
+at relevant points, and the concept lessons cross-reference each other
+plus point at concrete files to inspect. The tour itself uses every
+pattern it teaches — it's a worked example of skill-building.
+
 > **Where to start:** [`docs/prerequisites.md`](docs/prerequisites.md) →
-> [`docs/00-start-here.md`](docs/00-start-here.md). Plan ~30 minutes for
-> the full guided tour.
+> install the plugins → run `/showcase-tour:tour`. The tour walks through
+> every feature with concrete commands. Or skip the tour and pick a
+> concept from `/showcase-tour:explain` if you already know what you want
+> to learn. Or jump to [`docs/00-start-here.md`](docs/00-start-here.md)
+> if you'd rather read prose.
 
 ## Layout
 
@@ -45,6 +66,15 @@ claude-code-showcase/
 │   │   │   └── cleanup-imports/SKILL.md
 │   │   ├── hooks/hooks.json
 │   │   └── scripts/guard-dangerous-git.sh
+│   ├── showcase-tour/                     ← meta-plugin: tour + curriculum + inspector
+│   │   ├── .claude-plugin/plugin.json
+│   │   └── skills/
+│   │       ├── tour/SKILL.md              ← interactive walkthrough
+│   │       ├── explain/                   ← concept curriculum (12 lessons)
+│   │       │   ├── SKILL.md
+│   │       │   └── references/*.md       ← lazy-loaded concept files
+│   │       ├── inspect/SKILL.md           ← code walkthroughs
+│   │       └── status/SKILL.md            ← health check
 │   └── linkedin-post/                     ← Q2, Q4, Q5 — orchestration + MCP
 │       ├── .claude-plugin/plugin.json
 │       ├── skills/
@@ -83,13 +113,30 @@ claude-code-showcase/
 /plugin install draft-email@claude-code-showcase
 /plugin install commit-helper@claude-code-showcase
 /plugin install linkedin-post@claude-code-showcase
+/plugin install showcase-tour@claude-code-showcase
 /reload-plugins
 ```
 
-Then try:
+Three entry points — pick the one that fits how you learn:
 
 ```
-/draft-email:draft tell my coworker the quarterly review meeting is moved to Thursday
+/showcase-tour:tour              # interactive walkthrough, ~15 min
+/showcase-tour:explain skills    # 5-min focused lesson on one concept
+/showcase-tour:inspect plugins/draft-email   # walk through actual code
+```
+
+Or get the catalog of all 12 concept lessons:
+
+```
+/showcase-tour:explain           # lists every concept with a 1-line def
+```
+
+Or pick a tour mode:
+
+```
+/showcase-tour:tour quick        # 5-min big picture only
+/showcase-tour:tour deep         # 30-min everything + offer to read source
+/showcase-tour:tour mcp          # just the MCP topic
 ```
 
 ### Option B — Clone the repo and self-bootstrap
@@ -100,13 +147,20 @@ cd claude-code-showcase
 claude
 ```
 
-`.claude/settings.json` declares the marketplace and lists all three
+`.claude/settings.json` declares the marketplace and lists all four
 plugins as enabled. Claude Code prompts you to accept on first launch.
-Say yes, then start at [`docs/00-start-here.md`](docs/00-start-here.md).
+Say yes, then run `/showcase-tour:tour` — or read
+[`docs/00-start-here.md`](docs/00-start-here.md) if you'd rather follow
+the docs.
 
 ### Verify everything works
 
-[`docs/08-verify.md`](docs/08-verify.md) is a 10-step copy-paste checklist.
+```
+/showcase-tour:status
+```
+
+For a deeper checklist, [`docs/08-verify.md`](docs/08-verify.md) is the
+10-step copy-paste version.
 
 ## Mock vs real
 

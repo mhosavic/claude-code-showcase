@@ -1,15 +1,19 @@
 # Start here
 
-Guided tour of the showcase. Read it once top-to-bottom — earlier steps
-set up the context for later ones.
+Two paths through the showcase. Pick one.
 
-Plan ~30 minutes if you stop and try things. ~10 minutes if you just want
-to skim.
+| Path | Time | Format |
+|---|---|---|
+| **Interactive tour** — `/showcase-tour:tour` | 5–30 min depending on mode | Claude walks you through every feature with concrete commands. Adapts to your experience level. |
+| **This document** | ~30 min top-to-bottom | Linear written tour. Pause and try things as you go. Cross-references the deeper docs. |
 
-> **Before you start:** make sure your machine is ready —
+The interactive tour is usually the faster path for hands-on learners.
+This document is better if you want to read first and try later, or if
+the tour skill ever feels too rigid for you.
+
+> **Before either path:** make sure your machine is ready —
 > [`prerequisites.md`](prerequisites.md). About 5 minutes if Claude Code
-> isn't already installed. If you skip this and something doesn't work
-> later, you'll spend longer debugging than you saved.
+> isn't already installed.
 
 ---
 

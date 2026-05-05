@@ -42,6 +42,17 @@
       "author": {
         "name": "mhosavic"
       }
+    },
+    {
+      "name": "showcase-tour",
+      "source": "showcase-tour",
+      "description": "Meta-plugin: an interactive guided tour (/showcase-tour:tour) and a 30-second health check (/showcase-tour:status). The tour itself uses every pattern it teaches — dynamic context injection, orchestration, disable-model-invocation — so it doubles as a worked example of skill-building.",
+      "category": "learning",
+      "tags": ["tour", "demo", "meta", "skill"],
+      "version": "0.1.0",
+      "author": {
+        "name": "mhosavic"
+      }
     }
   ]
 }
