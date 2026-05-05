@@ -16,17 +16,32 @@ adapting depth to the mode they asked for.
 You are NOT a documentation dumper. Real instructors talk like humans: a
 sentence, a thing to try, a brief reaction, the next thing. Aim for that.
 
-## Live state (already inlined — don't re-fetch)
+## Step 0 — Gather live state (silent)
 
-- **In showcase repo:** !`test -f .claude-plugin/marketplace.json && echo yes || echo no`
-- **Marketplace plugins:** !`jq -r '[.plugins[].name] | join(", ")' .claude-plugin/marketplace.json 2>/dev/null || echo "(not in repo)"`
-- **Branch:** !`git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "(not a git repo)"`
-- **MCP server compiled:** !`test -f plugins/linkedin-post/mcp-server/dist/server.js && echo yes || echo "no — first session will build it"`
-- **Docs available:** !`ls docs/*.md 2>/dev/null | wc -l | tr -d ' '` files
-- **Node available:** !`node --version 2>/dev/null || echo "not installed"`
-- **showcase-tour cache:** !`ls -d ~/.claude/plugins/cache/*/showcase-tour* 2>/dev/null | head -1 | xargs -I{} basename {} || echo "(not in user cache — running locally)"`
+Before greeting the user, run a short, parallel batch of read-only Bash
+commands so subsequent steps know what to suggest. Do not show the raw
+output — just keep the answers in mind.
 
-## Step 0 — Determine mode
+Run these (each is harmless, all read-only, all listed in
+`allowed-tools`):
+
+- `test -f .claude-plugin/marketplace.json && echo yes || echo no` → is
+  the cwd inside the showcase repo?
+- `jq -r '[.plugins[].name] | join(", ")' .claude-plugin/marketplace.json 2>/dev/null || echo "(not in repo)"`
+  → which plugins are catalogued (only meaningful if "in showcase repo")
+- `git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "(not a git repo)"` →
+  current branch
+- `test -f plugins/linkedin-post/mcp-server/dist/server.js && echo yes || echo "no"` →
+  is the MCP server compiled? (only meaningful if "in showcase repo")
+- `node --version 2>/dev/null || echo "not installed"` → is node
+  available for the MCP server build?
+- `ls -d ~/.claude/plugins/cache/*/showcase-tour* 2>/dev/null | head -1 | xargs -I{} basename {} || echo "not in user cache"`
+  → is the showcase-tour plugin installed via marketplace, or running
+  from `--add-dir` / a local clone?
+
+Pace yourself: this should take ~1 second total. Then move to Step 1.
+
+## Step 1 — Determine mode (use the live state above)
 
 `$ARGUMENTS` is one of: `quick`, `standard`, `deep`, a specific topic name,
 or empty.
@@ -42,7 +57,7 @@ or empty.
 If the user passed a specific topic name, skip ahead to that topic and skip
 the others (they're filtering, not learning broadly).
 
-## Step 1 — Greet and confirm
+## Step 2 — Greet and confirm
 
 Open with **two short lines** — no longer:
 
@@ -66,7 +81,7 @@ showcase plugins if they haven't:
 
 Wait for the user to reply before continuing.
 
-## Step 2 — Run the tour
+## Step 3 — Run the tour
 
 Do the topics below **in order**, one at a time. After each topic:
 
@@ -131,9 +146,10 @@ the skill leaves bracketed placeholders, the structure (Subject / body /
 sign-off) comes from the SKILL.md instructions. Reference:
 `docs/01-simple-skill.md`.
 
-### C. Dynamic context injection — ! blocks (skip in quick)
+### C. Dynamic context injection — bang-blocks (skip in quick)
 
-> A skill's markdown can include `` !`shell-command` `` blocks. They run
+> A skill's markdown can include "bang-blocks": an exclamation mark
+> immediately followed by a backtick-delimited shell command. They run
 > *before* the prompt reaches Claude — the output replaces the
 > placeholder. Result: live data with no agentic loop.
 
@@ -144,10 +160,11 @@ Have them try (in any git repo with at least one staged change):
 ```
 
 After: point out that Claude wrote a commit message *grounded in the
-actual diff*, not a generic one — because the skill embedded
-`` !`git diff --cached` `` and the diff was inlined before Claude saw
-the prompt. Reference: `plugins/commit-helper/skills/commit-msg/SKILL.md`
-to see the `!` blocks themselves.
+actual diff*, not a generic one — because the skill embedded a
+bang-injected `git diff --cached` and the diff was inlined before
+Claude saw the prompt. Reference:
+`plugins/commit-helper/skills/commit-msg/SKILL.md` to see the
+bang-blocks themselves.
 
 ### D. Path-scoped skills (skip in quick)
 
@@ -298,8 +315,8 @@ specific source file right now? Tell me the path — I have read access."
 - Don't skip the cross-references — the docs exist for the deeper dive.
 - Don't apologize for things that work as designed (mock mode, the MCP
   build delay, etc.). Just explain what's happening.
-- Don't rebuild the live state via tool calls. The `!` injection at the
-  top of this skill already gathered it.
+- Don't rebuild the live state via tool calls. The bang-injection at
+  the top of this skill already gathered it.
 
 ## If something fails during the tour
 

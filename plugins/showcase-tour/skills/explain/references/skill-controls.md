@@ -29,7 +29,7 @@ posts, sends messages) or needs *specific tools* (Bash, MCP, Edit).
 
 ## Concrete example from this showcase
 
-`plugins/linkedin-post/skills/post-to-linkedin/SKILL.md`:
+`plugins/linkedin-post/skills/post/SKILL.md`:
 
 ```yaml
 ---
@@ -101,7 +101,7 @@ allowed-tools: Read, Grep, Glob, Bash(git status *), mcp__github__*
 
 ## Try this
 
-1. Run `/showcase-tour:inspect plugins/linkedin-post/skills/post-to-linkedin/SKILL.md`
+1. Run `/showcase-tour:inspect plugins/linkedin-post/skills/post/SKILL.md`
    to see how these fields combine in a real orchestrator.
 2. Compare with `/showcase-tour:inspect plugins/linkedin-post/skills/interview-for-post/SKILL.md`
    to see the same fields used differently for a pure-prompt skill.

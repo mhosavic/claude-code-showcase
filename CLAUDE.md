@@ -57,7 +57,7 @@ how to add an MCP tool).
 - The 11 doc pages in `docs/` are answers to specific questions, not
   open-ended tutorials. Each page has a clear scope. If a topic does not
   fit cleanly into one of them, add a new file rather than overloading.
-- The 12 concept references under
+- The 13 concept references under
   `plugins/showcase-tour/skills/explain/references/` follow a strict
   template: **what / mental model / example from this showcase / when to
   use vs alternatives / try this**. New concepts must use the same

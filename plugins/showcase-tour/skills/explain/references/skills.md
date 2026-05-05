@@ -16,7 +16,7 @@ Skills are how you **stop re-explaining yourself** to Claude.
 
 ## Concrete example from this showcase
 
-The simplest skill in the repo is `plugins/draft-email/skills/draft-email/SKILL.md`:
+The simplest skill in the repo is `plugins/draft-email/skills/draft/SKILL.md`:
 
 ```yaml
 ---
@@ -70,7 +70,7 @@ Skills vs the alternatives:
 
 ## Try this
 
-1. Run `/showcase-tour:inspect plugins/draft-email/skills/draft-email/SKILL.md`
+1. Run `/showcase-tour:inspect plugins/draft-email/skills/draft/SKILL.md`
    to walk through this skill line-by-line with annotations.
 2. Then run `/showcase-tour:explain plugins` to learn what wraps a skill
    for distribution.

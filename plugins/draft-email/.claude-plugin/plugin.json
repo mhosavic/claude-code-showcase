@@ -1,17 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "draft-email",
-  "version": "0.1.0",
+  "version": "0.1.4",
   "description": "Adds /draft-email:draft, a simple skill that writes a polite, well-structured email from a one-line description.",
   "author": {
     "name": "mhosavic"
   },
   "license": "MIT",
   "homepage": "https://github.com/mhosavic/claude-code-showcase/tree/main/plugins/draft-email",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mhosavic/claude-code-showcase.git",
-    "directory": "plugins/draft-email"
-  },
+  "repository": "https://github.com/mhosavic/claude-code-showcase.git",
   "keywords": ["email", "writing", "skill", "starter"]
 }

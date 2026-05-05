@@ -125,7 +125,7 @@ attack surface tiny.
 Each skill declares the MCP tools it's allowed to call:
 
 ```yaml
-# plugins/linkedin-post/skills/post-to-linkedin/SKILL.md
+# plugins/linkedin-post/skills/post/SKILL.md
 ---
 name: post
 disable-model-invocation: true

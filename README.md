@@ -66,12 +66,12 @@ claude-code-showcase/
 ├── plugins/
 │   ├── draft-email/                       ← Q1 — simplest possible plugin
 │   │   ├── .claude-plugin/plugin.json
-│   │   └── skills/draft-email/SKILL.md
+│   │   └── skills/draft/SKILL.md
 │   ├── commit-helper/                     ← demos !-injection, paths:, hook
 │   │   ├── .claude-plugin/plugin.json
 │   │   ├── skills/
 │   │   │   ├── commit-msg/SKILL.md
-│   │   │   ├── yesterday-summary/SKILL.md
+│   │   │   ├── yesterday/SKILL.md
 │   │   │   └── cleanup-imports/SKILL.md
 │   │   ├── hooks/hooks.json
 │   │   └── scripts/guard-dangerous-git.sh
@@ -87,7 +87,7 @@ claude-code-showcase/
 │   └── linkedin-post/                     ← Q2, Q4, Q5 — orchestration + MCP
 │       ├── .claude-plugin/plugin.json
 │       ├── skills/
-│       │   ├── post-to-linkedin/          ← orchestrator
+│       │   ├── post/                       ← orchestrator
 │       │   ├── interview-for-post/        ← sub-skill 1
 │       │   ├── draft-post-text/           ← sub-skill 2
 │       │   └── generate-post-image/       ← sub-skill 3

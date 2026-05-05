@@ -41,12 +41,14 @@ skills.
 
 ## The skill
 
-[`plugins/draft-email/skills/draft-email/SKILL.md`](../plugins/draft-email/skills/draft-email/SKILL.md)
+[`plugins/draft-email/skills/draft/SKILL.md`](../plugins/draft-email/skills/draft/SKILL.md)
 
-Skills live under `skills/<skill-name>/SKILL.md`. The directory name becomes
-the default invocation name. You can override that by setting `name:` in the
-frontmatter — that's what we do here, so the slash command is `/draft-email:draft`
-instead of `/draft-email:draft-email`.
+Skills live under `skills/<skill-name>/SKILL.md`. The **directory name** is
+what becomes the slash-command identifier, prefixed with the plugin's
+namespace — so `skills/draft/` in a plugin named `draft-email` produces
+`/draft-email:draft`. The `name:` field in the frontmatter is the human
+display name; it does not change the invocation. To rename the slash
+command, rename the folder.
 
 ```markdown
 ---

@@ -81,10 +81,10 @@ Use when the skill should only activate inside a particular subtree:
 
 | You're writing… | Closest existing example |
 |---|---|
-| A simple one-shot prompt | `plugins/draft-email/skills/draft-email/SKILL.md` |
+| A simple one-shot prompt | `plugins/draft-email/skills/draft/SKILL.md` |
 | A skill with live shell context | `plugins/commit-helper/skills/commit-msg/SKILL.md` |
 | A path-scoped skill | `plugins/commit-helper/skills/cleanup-imports/SKILL.md` |
-| A workflow orchestrator | `plugins/linkedin-post/skills/post-to-linkedin/SKILL.md` |
+| A workflow orchestrator | `plugins/linkedin-post/skills/post/SKILL.md` |
 | A skill that calls an MCP tool | `plugins/linkedin-post/skills/generate-post-image/SKILL.md` |
 
 ## Verifying

@@ -2,9 +2,11 @@
 
 ## What
 
-The `` !`shell-command` `` syntax inside a skill's body. The shell command
-runs **before** the skill's content reaches Claude — its output replaces
-the placeholder. Claude sees real data, not "go run this command."
+A "bang-block" — an exclamation mark immediately followed by a
+backtick-delimited shell command — placed inside a skill's body. The
+shell command runs **before** the skill's content reaches Claude; its
+output replaces the placeholder. Claude sees real data, not "go run
+this command."
 
 ## Mental model
 
@@ -21,27 +23,18 @@ Claude to run the same command itself via the Bash tool.
 
 ## Concrete example from this showcase
 
-`plugins/commit-helper/skills/commit-msg/SKILL.md` opens with:
+Open `plugins/commit-helper/skills/commit-msg/SKILL.md` and read the
+"Repo state" and "What's actually staged" sections. The skill defines
+several bang-blocks that gather:
 
-```markdown
-## Repo state
+- the current branch (via `git rev-parse --abbrev-ref HEAD`)
+- the staged-file count (via `git diff --cached --name-only | wc -l`)
+- the diff stat and the diff body itself (via `git diff --cached`)
 
-- **Branch:** !`git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "not a git repo"`
-- **Staged file count:** !`git diff --cached --name-only 2>/dev/null | wc -l | tr -d ' '`
-
-## What's actually staged
-
-```
-!`git diff --cached --stat 2>/dev/null || echo "nothing staged"`
-```
-
-```
-!`git diff --cached 2>/dev/null | head -300 || echo "nothing staged"`
-```
-```
-
-When the user runs `/commit-helper:commit-msg`, what Claude actually
-receives is something like:
+Each bang-block runs at skill-invocation time; its stdout replaces the
+placeholder in the skill body. So when the user runs
+`/commit-helper:commit-msg`, what Claude actually receives is something
+like:
 
 ```markdown
 ## Repo state
@@ -51,41 +44,33 @@ receives is something like:
 
 ## What's actually staged
 
-```
  src/auth.ts | 12 ++++++++++--
  src/login.ts | 4 +++-
- ...
-```
 
-```
 diff --git a/src/auth.ts b/src/auth.ts
 index abc..def 100644
 ...
 ```
-```
 
-Claude writes the commit message **grounded in the actual diff**. Without
-`!` injection, you'd have to either paste the diff manually every time,
-or ask Claude to run `git diff` itself — which is slower and adds an
-opportunity for the model to do something unexpected.
+Claude writes the commit message **grounded in the actual diff**.
+Without bang-injection, you'd have to either paste the diff manually
+every time, or ask Claude to run `git diff` itself — which is slower
+and adds an opportunity for the model to do something unexpected.
 
 ## Two forms
 
-**Inline:**
+**Inline.** Place a bang-block on the same line as surrounding markdown:
+the placeholder `<bang><backtick>git rev-parse --abbrev-ref HEAD<backtick>`
+inside a list item resolves to "main" before Claude sees the skill body.
 
-```markdown
-- Current branch: !`git rev-parse --abbrev-ref HEAD`
-```
+**Multi-line fenced block.** Use a fenced code block tagged with
+`bang` (open with three backticks plus a literal exclamation mark) when
+the command's stdout is multiple lines — for example, running
+`git status --short` followed by `git diff --stat HEAD`. Its stdout
+inlines as the block body.
 
-**Multi-line fenced block** (use this for commands that produce
-several lines):
-
-````markdown
-```!
-git status --short
-git diff --stat HEAD
-```
-````
+To see both forms in actual source, run
+`/showcase-tour:inspect plugins/commit-helper/skills/commit-msg/SKILL.md`.
 
 ## When to use vs alternatives
 
@@ -97,7 +82,7 @@ git diff --stat HEAD
 
 A common pattern: `!` injection at the top of the skill for "what's the
 current state?" + skill body that tells Claude what to do with that
-state. See `plugins/commit-helper/skills/yesterday-summary/SKILL.md` for
+state. See `plugins/commit-helper/skills/yesterday/SKILL.md` for
 another example.
 
 ## Things to watch out for

@@ -7,9 +7,9 @@ allowed-tools: Bash(git status *), Bash(git diff *), Bash(git log *), Bash(git r
 
 # Write commit message
 
-This skill demonstrates **dynamic context injection**: the `` !`cmd` `` blocks
-below run BEFORE the prompt reaches Claude. The output replaces the placeholder,
-so Claude sees actual diffs, not "go look at the diff."
+This skill demonstrates **dynamic context injection**: the bang-prefixed
+shell blocks below run BEFORE the prompt reaches Claude. The output replaces
+the placeholder, so Claude sees actual diffs, not "go look at the diff."
 
 ## Repo state
 

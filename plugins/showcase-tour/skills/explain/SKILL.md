@@ -19,7 +19,7 @@ The user invoked `/showcase-tour:explain $ARGUMENTS`. They want either a
 | 2 | **plugins** | The bundling unit — packages skills, agents, hooks, and MCP servers together for distribution. Includes credential prompting via `userConfig`. | `references/plugins.md` |
 | 3 | **marketplaces** | A catalog of plugins published as a GitHub repo. Three distribution patterns: per-developer, per-project, server-managed. | `references/marketplaces.md` |
 | 4 | **scopes** | Where skills physically live: personal (`~/.claude/skills/`), project (`<repo>/.claude/skills/`), or plugin. Each has different sharing semantics. | `references/scopes.md` |
-| 5 | **dynamic-injection** | `` !`shell command` `` blocks in skill bodies. The output is inlined *before* Claude sees the prompt — live data with no agentic loop. | `references/dynamic-injection.md` |
+| 5 | **dynamic-injection** | "Bang-blocks" in skill bodies (an exclamation mark plus a backtick-delimited shell command). The output is inlined *before* Claude sees the prompt — live data with no agentic loop. | `references/dynamic-injection.md` |
 | 6 | **path-scoping** | `paths:` frontmatter glob that lazy-loads a skill only when Claude reads matching files. Keeps context lean. | `references/path-scoping.md` |
 | 7 | **skill-controls** | Per-skill frontmatter that gates behavior: `allowed-tools`, `disable-model-invocation`, `argument-hint`. The control surface for skill safety. | `references/skill-controls.md` |
 | 8 | **subagents** | Isolated context workers with their own tools and system prompt. Use when you want work to happen *off the main thread*. | `references/subagents.md` |

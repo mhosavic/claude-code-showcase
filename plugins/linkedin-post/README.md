@@ -47,7 +47,7 @@ linkedin-post/
 │   └── plugin.json                       ← manifest with userConfig + mcpServers
 ├── README.md                             ← you are here
 ├── skills/
-│   ├── post-to-linkedin/SKILL.md         ← orchestrator
+│   ├── post/SKILL.md                     ← orchestrator
 │   ├── interview-for-post/SKILL.md       ← sub-skill 1
 │   ├── draft-post-text/SKILL.md          ← sub-skill 2
 │   └── generate-post-image/SKILL.md      ← sub-skill 3

@@ -1,18 +1,14 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "linkedin-post",
-  "version": "0.1.0",
+  "version": "0.1.4",
   "description": "Orchestrated LinkedIn post workflow: interview the user, draft text, generate an image, push the draft. Bundles a stdio MCP server with two credential-scoped tools and demonstrates per-skill allowed-tools.",
   "author": {
     "name": "mhosavic"
   },
   "license": "MIT",
   "homepage": "https://github.com/mhosavic/claude-code-showcase/tree/main/plugins/linkedin-post",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mhosavic/claude-code-showcase.git",
-    "directory": "plugins/linkedin-post"
-  },
+  "repository": "https://github.com/mhosavic/claude-code-showcase.git",
   "keywords": ["linkedin", "social", "orchestration", "mcp", "skill"],
 
   "userConfig": {

@@ -32,16 +32,16 @@ This showcase exists primarily at **plugin scope**. Every skill in the
 repo lives under `plugins/<name>/skills/`:
 
 ```
-plugins/draft-email/skills/draft-email/SKILL.md
+plugins/draft-email/skills/draft/SKILL.md
 plugins/commit-helper/skills/commit-msg/SKILL.md
-plugins/linkedin-post/skills/post-to-linkedin/SKILL.md
+plugins/linkedin-post/skills/post/SKILL.md
 ```
 
 But scopes coexist. If a teammate forks this repo and likes the
 `draft-email` skill, they could:
 
-1. Copy `plugins/draft-email/skills/draft-email/SKILL.md` to
-   `~/.claude/skills/draft-email/SKILL.md` for personal use.
+1. Copy `plugins/draft-email/skills/draft/SKILL.md` to
+   `~/.claude/skills/draft/SKILL.md` for personal use.
 2. Invoke it as `/draft-email` (no plugin namespace) instead of
    `/draft-email:draft`.
 3. Edit it freely without affecting the upstream plugin.
@@ -87,7 +87,7 @@ When `~/.claude/skills/<x>/SKILL.md` proves useful enough to share:
 
 ## Try this
 
-1. Run `/showcase-tour:inspect plugins/draft-email/skills/draft-email/SKILL.md`
+1. Run `/showcase-tour:inspect plugins/draft-email/skills/draft/SKILL.md`
    to see what a plugin-scope skill looks like.
 2. Then create a personal version: copy that file to
    `~/.claude/skills/quick-email/SKILL.md` and try invoking it as

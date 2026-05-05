@@ -23,7 +23,7 @@ If it looks like a path (contains `/` or ends in `.md`/`.json`/`.ts`/`.sh`):
 read it directly.
 
 Examples:
-- `plugins/draft-email/skills/draft-email/SKILL.md`
+- `plugins/draft-email/skills/draft/SKILL.md`
 - `plugins/linkedin-post/.claude-plugin/plugin.json`
 - `plugins/commit-helper/scripts/guard-dangerous-git.sh`
 
@@ -48,7 +48,7 @@ Map common phrases to a target:
 | `the marketplace`, `marketplace` | `.claude-plugin/marketplace.json` |
 | `the settings`, `settings`, `bootstrap` | `.claude/settings.json` |
 | `the MCP server`, `the server`, `mcp server` | `plugins/linkedin-post/mcp-server/src/server.ts` |
-| `the orchestrator`, `the workflow` | `plugins/linkedin-post/skills/post-to-linkedin/SKILL.md` |
+| `the orchestrator`, `the workflow` | `plugins/linkedin-post/skills/post/SKILL.md` |
 | `the hook`, `the safety hook` | `plugins/commit-helper/scripts/guard-dangerous-git.sh` |
 | `the subagent`, `the coordinator` | `plugins/linkedin-post/agents/post-coordinator.md` |
 | `the tour`, `the tour skill` | `plugins/showcase-tour/skills/tour/SKILL.md` |
@@ -146,7 +146,7 @@ You should:
    itself."
 3. Read `plugins/draft-email/.claude-plugin/plugin.json`. Quote it.
    Annotate the fields.
-4. Read `plugins/draft-email/skills/draft-email/SKILL.md`. Quote the
+4. Read `plugins/draft-email/skills/draft/SKILL.md`. Quote the
    frontmatter. Explain `name`, `description`, `argument-hint`. Quote a
    chunk of the body. Note `$ARGUMENTS` substitution.
 5. Skip `README.md` (just human docs).

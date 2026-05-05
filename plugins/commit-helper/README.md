@@ -3,8 +3,9 @@
 Mid-tier plugin showing three Claude Code features that `draft-email`
 (simplest) and `linkedin-post` (most complex) don't:
 
-1. **Dynamic context injection** — `` !`cmd` `` blocks in skill markdown that
-   run a shell command before the prompt reaches Claude.
+1. **Dynamic context injection** — "bang-blocks" (an exclamation mark
+   followed by a backtick-delimited command) in skill markdown that run
+   a shell command before the prompt reaches Claude.
 2. **Path-scoped skill activation** — a skill that only loads into context
    when Claude is reading certain file types.
 3. **A PreToolUse hook** — a real safety guard that blocks irrecoverable
@@ -37,8 +38,8 @@ commit-helper/
 ├── .claude-plugin/plugin.json
 ├── README.md
 ├── skills/
-│   ├── commit-msg/SKILL.md            ← uses !`git diff --cached`
-│   ├── yesterday-summary/SKILL.md     ← uses !`git log --since`
+│   ├── commit-msg/SKILL.md            ← bang-injects git diff --cached
+│   ├── yesterday-summary/SKILL.md     ← bang-injects git log --since
 │   └── cleanup-imports/SKILL.md       ← paths: '**/*.ts' '**/*.tsx' …
 ├── hooks/
 │   └── hooks.json                     ← declares the PreToolUse hook
@@ -65,29 +66,24 @@ echo '// test' >> some-file.ts && git add some-file.ts
 git push --force origin main
 ```
 
-## How `!` injection works
+## How bang-injection works
 
-Inside a `SKILL.md`, this:
+Inside a `SKILL.md`, a "bang-block" (an exclamation mark immediately
+followed by a backtick-delimited shell command, like the bang-prefixed
+`git rev-parse --abbrev-ref HEAD` line in `commit-msg/SKILL.md`) gets
+its stdout substituted in-place before Claude sees the skill body. So a
+line that reads `Branch: <bang-block-around git rev-parse>` becomes
+`Branch: main` by the time Claude reads it.
 
-```markdown
-Branch: !`git rev-parse --abbrev-ref HEAD`
-```
+The shell command runs in the user's working directory. If it fails,
+the output is its stderr — which is why the skills here use
+`2>/dev/null || echo fallback` to handle "not a git repo" cleanly.
 
-becomes, before Claude sees the skill:
-
-```markdown
-Branch: main
-```
-
-The shell command runs in the user's working directory. If it fails, the
-output is its stderr — which is why the skills here use `2>/dev/null ||
-echo fallback` to handle "not a git repo" cleanly.
-
-This is **preprocessing**, not a tool call. Claude doesn't choose to run
-these — they're already done by the time the skill body is sent to it.
-That's why it's safer than asking Claude to run `git diff` itself: there's
-no agentic loop, no permission prompt, no risk of the model interpreting
-"check the diff" as something else.
+This is **preprocessing**, not a tool call. Claude doesn't choose to
+run these — they're already done by the time the skill body is sent.
+That's why it's safer than asking Claude to run `git diff` itself:
+there's no agentic loop, no permission prompt, no risk of the model
+interpreting "check the diff" as something else.
 
 ## How `paths:` activation works
 
@@ -115,8 +111,8 @@ the path scope only affects automatic loading.
 The three features here are how you keep Claude Code performant on a real
 team:
 
-- **`!` injection** lets you give Claude live data without an agentic loop
-  per skill. Cheap, deterministic, fast.
+- **Bang-injection** lets you give Claude live data without an agentic
+  loop per skill. Cheap, deterministic, fast.
 - **`paths:` scoping** keeps your context window lean. If your team has 30
   internal skills, you don't want all of them loaded for every conversation.
 - **Hooks** are how you turn "soft preferences" (CLAUDE.md, descriptions)

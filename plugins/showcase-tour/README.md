@@ -60,7 +60,7 @@ Anything in the repo. Common targets recognized as keywords:
 | `the marketplace` | `.claude-plugin/marketplace.json` |
 | `the settings` | `.claude/settings.json` |
 | `the MCP server` | `plugins/linkedin-post/mcp-server/src/server.ts` |
-| `the orchestrator` | `plugins/linkedin-post/skills/post-to-linkedin/SKILL.md` |
+| `the orchestrator` | `plugins/linkedin-post/skills/post/SKILL.md` |
 | `the hook` | `plugins/commit-helper/scripts/guard-dangerous-git.sh` |
 | `the subagent` | `plugins/linkedin-post/agents/post-coordinator.md` |
 | `the tour` | `plugins/showcase-tour/skills/tour/SKILL.md` |
@@ -82,9 +82,8 @@ Second, it's pedagogical-by-existing: the tour skill itself uses every
 feature the showcase teaches:
 
 - It's a **plugin** (Q1 — simple plugin shape).
-- The tour skill uses **dynamic context injection** (`` !`cmd` `` blocks
-  at the top to detect repo and install state — same pattern as
-  `commit-helper`).
+- The tour skill uses **dynamic context injection** (bang-blocks at the
+  top to detect repo and install state — same pattern as `commit-helper`).
 - The tour skill **orchestrates** by walking the user through invoking
   the other plugins' skills (same pattern as `linkedin-post:post`).
 - All four skills use `disable-model-invocation: true` because they're

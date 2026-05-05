@@ -23,8 +23,14 @@ jobs:
           cache: npm
           cache-dependency-path: plugins/linkedin-post/mcp-server/package-lock.json
 
+      # Use `npm install` rather than `npm ci`: the maintainer develops on
+      # macOS, which does not write Linux-only optional dependencies (the
+      # rollup native binaries pulled in by vitest) into package-lock.json.
+      # `npm ci` then fails with EUSAGE on Linux runners. `npm install`
+      # tolerates the divergence; reproducibility loss is acceptable for
+      # this showcase repo.
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: Build (tsc)
         run: npm run build

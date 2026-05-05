@@ -6,50 +6,47 @@
     "name": "mhosavic",
     "url": "https://github.com/mhosavic"
   },
-  "metadata": {
-    "pluginRoot": "./plugins"
-  },
   "plugins": [
     {
       "name": "draft-email",
-      "source": "draft-email",
+      "source": "./plugins/draft-email",
       "description": "Single-skill plugin: /draft-email:draft writes a polite, well-structured email from a one-line description.",
       "category": "productivity",
       "tags": ["skill", "writing", "starter"],
-      "version": "0.1.0",
+      "version": "0.1.4",
       "author": {
         "name": "mhosavic"
       }
     },
     {
       "name": "commit-helper",
-      "source": "commit-helper",
+      "source": "./plugins/commit-helper",
       "description": "Mid-tier plugin demonstrating dynamic context injection (live shell output in skills), path-scoped skill activation, and a PreToolUse hook that blocks dangerous git commands.",
       "category": "development",
       "tags": ["git", "skill", "hook", "context-injection"],
-      "version": "0.1.0",
+      "version": "0.1.4",
       "author": {
         "name": "mhosavic"
       }
     },
     {
       "name": "linkedin-post",
-      "source": "linkedin-post",
+      "source": "./plugins/linkedin-post",
       "description": "Multi-skill orchestration plugin: interview the user, draft post text, generate an image, push the draft to LinkedIn. Includes a bundled stdio MCP server with credential-scoped tools and per-skill allowed-tools.",
       "category": "productivity",
       "tags": ["skill", "subagent", "mcp", "orchestration"],
-      "version": "0.1.0",
+      "version": "0.1.4",
       "author": {
         "name": "mhosavic"
       }
     },
     {
       "name": "showcase-tour",
-      "source": "showcase-tour",
+      "source": "./plugins/showcase-tour",
       "description": "Meta-plugin: an interactive guided tour (/showcase-tour:tour) and a 30-second health check (/showcase-tour:status). The tour itself uses every pattern it teaches — dynamic context injection, orchestration, disable-model-invocation — so it doubles as a worked example of skill-building.",
       "category": "learning",
       "tags": ["tour", "demo", "meta", "skill"],
-      "version": "0.1.0",
+      "version": "0.1.4",
       "author": {
         "name": "mhosavic"
       }

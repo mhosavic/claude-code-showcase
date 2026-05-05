@@ -1,17 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "commit-helper",
-  "version": "0.1.0",
+  "version": "0.1.4",
   "description": "Mid-tier plugin that demonstrates three Claude Code features the simple/complex plugins don't: dynamic context injection (live shell output in skills), path-scoped skill activation, and a PreToolUse safety hook.",
   "author": {
     "name": "mhosavic"
   },
   "license": "MIT",
   "homepage": "https://github.com/mhosavic/claude-code-showcase/tree/main/plugins/commit-helper",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mhosavic/claude-code-showcase.git",
-    "directory": "plugins/commit-helper"
-  },
+  "repository": "https://github.com/mhosavic/claude-code-showcase.git",
   "keywords": ["git", "skill", "hook", "context-injection", "demo"]
 }

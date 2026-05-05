@@ -1,17 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "showcase-tour",
-  "version": "0.1.0",
+  "version": "0.1.4",
   "description": "Meta-plugin that walks the user through every feature the claude-code-showcase repo demonstrates. /showcase-tour:tour is an interactive adaptive walkthrough; /showcase-tour:status is a 30-second health check. Both use dynamic context injection to detect what's installed.",
   "author": {
     "name": "mhosavic"
   },
   "license": "MIT",
   "homepage": "https://github.com/mhosavic/claude-code-showcase/tree/main/plugins/showcase-tour",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mhosavic/claude-code-showcase.git",
-    "directory": "plugins/showcase-tour"
-  },
+  "repository": "https://github.com/mhosavic/claude-code-showcase.git",
   "keywords": ["tour", "walkthrough", "demo", "meta", "skill"]
 }

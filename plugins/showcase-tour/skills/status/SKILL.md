@@ -2,42 +2,53 @@
 name: status
 description: 30-second health check of the claude-code-showcase installation. Reports which showcase plugins are installed, whether the linkedin-post MCP server is built, mock-mode state, and prerequisite tooling (node, jq). Use before running the tour or trying the plugins, or whenever something feels broken.
 disable-model-invocation: true
-allowed-tools: Bash(test *), Bash(ls *), Bash(node *), Bash(jq *), Bash(which *)
+allowed-tools: Bash(test *), Bash(ls *), Bash(node *), Bash(jq *), Bash(which *), Bash(gh --version)
 ---
 
 # Showcase status
 
-(All values below are inlined before this prompt reaches Claude — actual
-output, not commands.)
+The user wants a 30-second installation health check. Gather the state
+yourself with the read-only Bash commands listed below, then produce
+the status table. All commands here are pre-approved via `allowed-tools`,
+so they run without prompting.
 
-## Repo
+## Step 1 — Probe state
 
-- **In showcase repo:** !`test -f .claude-plugin/marketplace.json && echo "yes" || echo "no"`
-- **Marketplace name:** !`jq -r '.name' .claude-plugin/marketplace.json 2>/dev/null || echo "(not in repo)"`
-- **Plugins listed:** !`jq -r '[.plugins[].name] | join(", ")' .claude-plugin/marketplace.json 2>/dev/null || echo "(not in repo)"`
+Run these commands (parallel where possible). Each is harmless and
+short:
 
-## Plugins installed (user cache)
+**Repo state**
+- `test -f .claude-plugin/marketplace.json && echo "in showcase repo" || echo "not in showcase repo"`
+- If "in showcase repo":
+  - `jq -r '.name' .claude-plugin/marketplace.json 2>/dev/null` → marketplace name
+  - `jq -r '[.plugins[].name] | join(", ")' .claude-plugin/marketplace.json 2>/dev/null` → plugins catalogued
 
-- **draft-email:** !`ls -d ~/.claude/plugins/cache/*/draft-email* 2>/dev/null | head -1 | xargs -I{} basename {} || echo "not installed"`
-- **commit-helper:** !`ls -d ~/.claude/plugins/cache/*/commit-helper* 2>/dev/null | head -1 | xargs -I{} basename {} || echo "not installed"`
-- **linkedin-post:** !`ls -d ~/.claude/plugins/cache/*/linkedin-post* 2>/dev/null | head -1 | xargs -I{} basename {} || echo "not installed"`
-- **showcase-tour:** !`ls -d ~/.claude/plugins/cache/*/showcase-tour* 2>/dev/null | head -1 | xargs -I{} basename {} || echo "not installed (may be running from --plugin-dir or local repo)"`
+**Plugins installed (one ls per plugin)**
+- `ls -d ~/.claude/plugins/cache/*/draft-email* 2>/dev/null | head -1`
+- `ls -d ~/.claude/plugins/cache/*/commit-helper* 2>/dev/null | head -1`
+- `ls -d ~/.claude/plugins/cache/*/linkedin-post* 2>/dev/null | head -1`
+- `ls -d ~/.claude/plugins/cache/*/showcase-tour* 2>/dev/null | head -1`
 
-## linkedin-post MCP server
+Empty stdout means "not installed". Non-empty means installed.
 
-- **Built (cache):** !`ls ~/.claude/plugins/cache/*/linkedin-post*/mcp-server/dist/server.js 2>/dev/null | head -1 || echo "no — first session will build it"`
-- **Built (local repo):** !`ls plugins/linkedin-post/mcp-server/dist/server.js 2>/dev/null || echo "no"`
-- **Persistent deps installed:** !`ls -d ~/.claude/plugins/data/linkedin-post* 2>/dev/null | head -1 | xargs -I{} basename {} || echo "not yet (first session will install)"`
+**linkedin-post MCP server build state** (only if `linkedin-post` is
+installed)
+- `ls ~/.claude/plugins/cache/*/linkedin-post*/mcp-server/dist/server.js 2>/dev/null | head -1`
+- `ls -d ~/.claude/plugins/data/linkedin-post* 2>/dev/null | head -1`
 
-## Prerequisites
+If both are empty, the SessionStart hook hasn't built yet. If the first
+is non-empty, ready.
 
-- **node:** !`node --version 2>/dev/null || echo "MISSING — required for linkedin-post MCP server"`
-- **jq:** !`jq --version 2>/dev/null || echo "MISSING — used by hook scripts"`
-- **gh:** !`which gh >/dev/null 2>&1 && gh --version 2>/dev/null | head -1 || echo "not installed (optional)"`
+**Prerequisites**
+- `node --version 2>/dev/null`
+- `jq --version 2>/dev/null`
+- `gh --version 2>/dev/null` (optional)
 
-## Your task
+Empty/error means missing.
 
-Read the state above and produce a **status table** in this exact format:
+## Step 2 — Produce the status table
+
+Output exactly this format:
 
 ```
 showcase-tour status
@@ -56,7 +67,7 @@ Prerequisites      <✓ all present | ✗ missing: node/jq>
 
 Use ✓ for present and ✗ for missing.
 
-## Summary line — pick the right one
+## Step 3 — Summary line — pick the right one
 
 - All ✓ → `Everything wired up. Try /showcase-tour:tour to walk through what's here.`
 - Some plugins missing → `<n> plugin(s) not installed. Run /plugin install <name>@claude-code-showcase for each.`
@@ -73,4 +84,5 @@ order.
 - Don't repeat the table data in prose. Once is enough.
 - Don't suggest fixes the user didn't ask for. The summary line is the
   only nudge.
-- Don't run any tools. The state is already inlined above.
+- Don't take more than ~5 seconds to gather state. Parallelize the Bash
+  calls where you can.
